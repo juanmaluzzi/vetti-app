@@ -7,29 +7,29 @@ spring:
       client:
         registration:
           auth0:
-            client-id: L4Td91LHqzAfx831jlThWZCnBCBpOfq1
-            client-secret: WkDtOTKKL92tjMNMLLVMwgYfFOWfp2HnpNLam9VX6eT2uIj7XMObCd2-M_R-SPV2
+            client-id: ${AUTH0_CLIENT_ID}
+            client-secret: ${AUTH0_CLIENT_SECRET}
             scope: openid,profile,email
-            redirect-uri: "{baseUrl}/login/oauth2/code/auth0"
+            redirect-uri: ${AUTH0_REDIRECT_URI}
         provider:
           auth0:
-            authorization-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/authorize
-            token-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/oauth/token
-            user-info-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/userinfo
-            jwk-set-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/.well-known/jwks.json
-            issuer-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/
+            authorization-uri: ${AUTH0_ISSUER_URI}/authorize
+            token-uri: ${AUTH0_ISSUER_URI}/oauth/token
+            user-info-uri: ${AUTH0_ISSUER_URI}/userinfo
+            jwk-set-uri: ${AUTH0_ISSUER_URI}/.well-known/jwks.json
+            issuer-uri: ${AUTH0_ISSUER_URI}
       resourceserver:
         jwt:
-          issuer-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/
+          issuer-uri: ${AUTH0_ISSUER_URI}
 
   datasource:
-    url: jdbc:postgresql://dpg-cr763qo8fa8c739p819g-a.virginia-postgres.render.com:5432/users_om6a
-    username: users_om6a_user
-    password: OeNqI3o3GPnedKo77Y8fkpAyEyZ0ExXj
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update  # Puedes usar "update" o "create" para desarrollo
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
