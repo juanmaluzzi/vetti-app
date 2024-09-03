@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          auth0:
+            client-id: L4Td91LHqzAfx831jlThWZCnBCBpOfq1
+            client-secret: WkDtOTKKL92tjMNMLLVMwgYfFOWfp2HnpNLam9VX6eT2uIj7XMObCd2-M_R-SPV2
+            scope: openid,profile,email
+            redirect-uri: "{baseUrl}/login/oauth2/code/auth0"
+        provider:
+          auth0:
+            authorization-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/authorize
+            token-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/oauth/token
+            user-info-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/userinfo
+            jwk-set-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/.well-known/jwks.json
+            issuer-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-k1n7shfb1jvuxkvz.us.auth0.com/
+
+  datasource:
+    url: jdbc:postgresql://dpg-cr763qo8fa8c739p819g-a.virginia-postgres.render.com:5432/users_om6a
+    username: users_om6a_user
+    password: OeNqI3o3GPnedKo77Y8fkpAyEyZ0ExXj
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  # Puedes usar "update" o "create" para desarrollo
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
