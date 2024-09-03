@@ -13,10 +13,10 @@ spring:
             redirect-uri: ${AUTH0_REDIRECT_URI}
         provider:
           auth0:
-            authorization-uri: ${AUTH0_ISSUER_URI}/authorize
-            token-uri: ${AUTH0_ISSUER_URI}/oauth/token
-            user-info-uri: ${AUTH0_ISSUER_URI}/userinfo
-            jwk-set-uri: ${AUTH0_ISSUER_URI}/.well-known/jwks.json
+            authorization-uri: ${AUTH0_ISSUER_URI}authorize
+            token-uri: ${AUTH0_ISSUER_URI}oauth/token
+            user-info-uri: ${AUTH0_ISSUER_URI}userinfo
+            jwk-set-uri: ${AUTH0_ISSUER_URI}.well-known/jwks.json
             issuer-uri: ${AUTH0_ISSUER_URI}
       resourceserver:
         jwt:
