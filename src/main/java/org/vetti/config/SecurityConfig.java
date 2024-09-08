@@ -17,12 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/register", "/auth/login").authenticated()  //
+                .antMatchers("/auth/register", "/auth/login").authenticated()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Deshabilita la creación de sesiones
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .oauth2ResourceServer()
-                .jwt();  // Usa JWT para la autenticación
+                .jwt();
     }
 
     @Bean

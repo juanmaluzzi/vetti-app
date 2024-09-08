@@ -18,11 +18,8 @@ public class GlobalExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.BAD_REQUEST.value());
         body.put("error", "Bad Request");
-        body.put("message", ex.getMessage());  // Aquí se coloca el mensaje personalizado
-        // Opcional: body.put("path", request.getRequestURI()); // Puedes incluir la ruta si necesitas
+        body.put("message", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
-
-    // Puedes agregar más manejadores para otras excepciones si es necesario
 }

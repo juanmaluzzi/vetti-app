@@ -1,27 +1,19 @@
 package org.vetti.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@AllArgsConstructor
 public class LoginResponse {
     private String message;
     private int statusCode;
+    private String role;
 
-    public LoginResponse(String message, int statusCode) {
+    public LoginResponse(String message, int statusCode){
         this.message = message;
-        this.statusCode = statusCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
     }
 }

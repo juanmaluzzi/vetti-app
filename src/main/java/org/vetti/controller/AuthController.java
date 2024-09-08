@@ -3,6 +3,7 @@ package org.vetti.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.vetti.model.UpdateUserDTO;
 import org.vetti.model.User;
 import org.vetti.response.LoginResponse;
 import org.vetti.service.UserService;
@@ -10,7 +11,7 @@ import org.vetti.service.UserService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user")
 public class AuthController {
 
     @Autowired
@@ -25,5 +26,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody User loginUser) {
         return userService.loginUser(loginUser.getEmail(), loginUser.getPassword());
+    }
+
+    @PostMapping("/updateUser/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO newUserDetails){
+
+        UpdateUserDTO updateUser = userService.updateUser(id, newUserDetails);
+
+        return ResponseEntity.status(200).build();
     }
 }
