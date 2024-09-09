@@ -1,39 +1,47 @@
 package org.vetti;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 
 @SpringBootApplication
 public class Main {
 
     public static void main(String[] args) {
-        Dotenv dotenv = null;
-
         if (System.getenv("ENVIRONMENT") == null || System.getenv("ENVIRONMENT").equals("development")) {
-            dotenv = Dotenv.load();  // Cargar .env en local
-            System.out.println("Cargando variables desde .env en entorno de desarrollo");
+            try {
+                loadEnvFile(".env");
+                System.out.println("Variables cargadas desde .env en local.");
+            } catch (IOException e) {
+                System.out.println("Error cargando el archivo .env: " + e.getMessage());
+            }
         } else {
-            System.out.println("Usando variables de entorno configuradas en producción");
+            System.out.println("Usando variables de entorno configuradas en producción.");
         }
-
-        setSystemProperty("AUTH0_CLIENT_ID", dotenv);
-        setSystemProperty("AUTH0_CLIENT_SECRET", dotenv);
-        setSystemProperty("AUTH0_ISSUER_URI", dotenv);
-        setSystemProperty("AUTH0_REDIRECT_URI", dotenv);
-        setSystemProperty("SPRING_DATASOURCE_URL", dotenv);
-        setSystemProperty("SPRING_DATASOURCE_USERNAME", dotenv);
-        setSystemProperty("SPRING_DATASOURCE_PASSWORD", dotenv);
 
         SpringApplication.run(Main.class, args);
     }
 
-    private static void setSystemProperty(String key, Dotenv dotenv) {
-        String value = (dotenv != null) ? dotenv.get(key) : System.getenv(key);
-        if (value != null && !value.isEmpty()) {
-            System.setProperty(key, value);
-        } else {
-            System.out.println("Advertencia: Variable de entorno " + key + " no está definida.");
+
+    private static void loadEnvFile(String filePath) throws IOException {
+        Properties properties = new Properties();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty() && !line.startsWith("#")) {
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        properties.setProperty(key, value);
+                        System.setProperty(key, value);
+                    }
+                }
+            }
         }
     }
 }
