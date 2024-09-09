@@ -58,7 +58,7 @@ public class Utils {
 
         if (passwordEncoder.matches(password, user.getPassword())) {
             String role = user.getRole();
-            LoginResponse response = new LoginResponse("Success", HttpStatus.OK.value(), role);
+            LoginResponse response = new LoginResponse("Success", HttpStatus.OK.value(), role, user.getId());
             return ResponseEntity.ok(response);
         } else {
             LoginResponse response = new LoginResponse("invalid credentials, please check your email or password.", HttpStatus.UNAUTHORIZED.value());

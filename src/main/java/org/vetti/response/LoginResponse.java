@@ -11,6 +11,7 @@ public class LoginResponse {
     private String message;
     private int statusCode;
     private String role;
+    private Long id;
 
     public LoginResponse(String message, int statusCode){
         this.message = message;
