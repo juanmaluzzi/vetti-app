@@ -8,7 +8,6 @@ import org.vetti.model.User;
 import org.vetti.response.LoginResponse;
 import org.vetti.service.UserService;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")

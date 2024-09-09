@@ -14,13 +14,13 @@ import org.vetti.utils.Utils;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private Utils utils;
+    private final Utils utils;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, Utils utils) {
