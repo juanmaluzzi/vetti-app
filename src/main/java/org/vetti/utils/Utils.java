@@ -142,7 +142,8 @@ public class Utils {
     }
 
     private void validateRole(String value, String errorMessage){
-        if (value == null || value.trim().isEmpty() || !value.matches(("^[0-2]$"))) throw new BadRequestException(errorMessage + " Received value: " + value);
-
+        if (value != null) {
+            if (!value.matches(("^[0-2]$"))) throw new BadRequestException(errorMessage + " Received value: " + value);
+        }
     }
 }
