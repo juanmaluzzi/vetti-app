@@ -8,6 +8,9 @@ import org.vetti.model.User;
 import org.vetti.response.LoginResponse;
 import org.vetti.service.UserService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/user")
@@ -27,11 +30,23 @@ public class AuthController {
         return userService.loginUser(loginUser.getEmail(), loginUser.getPassword());
     }
 
-    @PostMapping("/updateUser/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO newUserDetails){
+    @PatchMapping("/updateUser/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO newUserDetails){
 
         UpdateUserDTO updateUser = userService.updateUser(id, newUserDetails);
 
-        return ResponseEntity.status(200).build();
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("message", "User updated successfully");
+        responseBody.put("userUpdated", updateUser.getEmail());
+
+        return ResponseEntity.status(200).body(responseBody);
+    }
+
+    @GetMapping("/searchUser/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email){
+
+        User getUser = userService.getUserByEmail(email);
+
+        return ResponseEntity.status(200).body(getUser);
     }
 }

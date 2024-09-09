@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.UpdateUserDTO;
 import org.vetti.model.User;
 import org.vetti.repository.UserRepository;
@@ -46,6 +47,12 @@ public class UserService {
 
        return utils.updateUser(id, newUserDetails);
 
+    }
+
+    public User getUserByEmail(String email){
+
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
     }
 
 }
