@@ -9,26 +9,33 @@ public class Main {
 
     public static void main(String[] args) {
         Dotenv dotenv = null;
-        // Cargar las variables de entorno desde el archivo .env usando Dotenv
+
+        // Solo cargar el archivo .env si estamos en un entorno local (desarrollo)
         if (System.getenv("ENVIRONMENT") == null || System.getenv("ENVIRONMENT").equals("development")) {
-            dotenv = Dotenv.load();
+            dotenv = Dotenv.load();  // Cargar el .env en local
+            System.out.println("Cargando variables desde .env en entorno de desarrollo");
+        } else {
+            System.out.println("Usando variables de entorno configuradas en producción");
         }
 
-        // Establecer propiedades del sistema, ya sea desde dotenv o directamente desde las variables de entorno
-        System.setProperty("AUTH0_CLIENT_ID",
-                (dotenv != null) ? dotenv.get("AUTH0_CLIENT_ID") : System.getenv("AUTH0_CLIENT_ID"));
-        System.setProperty("AUTH0_CLIENT_SECRET",
-                (dotenv != null) ? dotenv.get("AUTH0_CLIENT_SECRET") : System.getenv("AUTH0_CLIENT_SECRET"));
-        System.setProperty("AUTH0_ISSUER_URI",
-                (dotenv != null) ? dotenv.get("AUTH0_ISSUER_URI") : System.getenv("AUTH0_ISSUER_URI"));
-        System.setProperty("AUTH0_REDIRECT_URI",
-                (dotenv != null) ? dotenv.get("AUTH0_REDIRECT_URI") : System.getenv("AUTH0_REDIRECT_URI"));
-        System.setProperty("SPRING_DATASOURCE_URL",
-                (dotenv != null) ? dotenv.get("SPRING_DATASOURCE_URL") : System.getenv("SPRING_DATASOURCE_URL"));
-        System.setProperty("SPRING_DATASOURCE_USERNAME",
-                (dotenv != null) ? dotenv.get("SPRING_DATASOURCE_USERNAME") : System.getenv("SPRING_DATASOURCE_USERNAME"));
-        System.setProperty("SPRING_DATASOURCE_PASSWORD",
-                (dotenv != null) ? dotenv.get("SPRING_DATASOURCE_PASSWORD") : System.getenv("SPRING_DATASOURCE_PASSWORD"));
+        // Establecer propiedades del sistema ya sea desde dotenv (local) o desde System.getenv (prod)
+        setSystemProperty("AUTH0_CLIENT_ID", dotenv);
+        setSystemProperty("AUTH0_CLIENT_SECRET", dotenv);
+        setSystemProperty("AUTH0_ISSUER_URI", dotenv);
+        setSystemProperty("AUTH0_REDIRECT_URI", dotenv);
+        setSystemProperty("SPRING_DATASOURCE_URL", dotenv);
+        setSystemProperty("SPRING_DATASOURCE_USERNAME", dotenv);
+        setSystemProperty("SPRING_DATASOURCE_PASSWORD", dotenv);
+
         SpringApplication.run(Main.class, args);
+    }
+
+    private static void setSystemProperty(String key, Dotenv dotenv) {
+        String value = (dotenv != null) ? dotenv.get(key) : System.getenv(key);
+        if (value != null) {
+            System.setProperty(key, value);
+        } else {
+            System.out.println("Warning: Variable de entorno " + key + " no está definida.");
+        }
     }
 }
