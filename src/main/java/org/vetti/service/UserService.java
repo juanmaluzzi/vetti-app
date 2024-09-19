@@ -1,6 +1,7 @@
 package org.vetti.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,8 +40,17 @@ public class UserService {
     }
 
     public ResponseEntity<LoginResponse> loginUser(String email, String password) {
+            User user = userRepository.findUserByEmail(email)
+                    .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
 
-        return utils.validateUserCredentials(email, password);
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                String role = user.getRole();
+                LoginResponse response = new LoginResponse("Success", HttpStatus.OK.value(), role, user.getId());
+                return ResponseEntity.ok(response);
+            } else {
+                LoginResponse response = new LoginResponse("invalid credentials, please check your email or password.", HttpStatus.UNAUTHORIZED.value());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
     }
 
     public UpdateUserDTO updateUser(Long id, UpdateUserDTO newUserDetails){

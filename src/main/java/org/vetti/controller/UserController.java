@@ -11,7 +11,6 @@ import org.vetti.service.UserService;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
