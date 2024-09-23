@@ -7,7 +7,6 @@ import org.vetti.model.dto.UpdateVetDTO;
 import org.vetti.model.User;
 import org.vetti.model.Vet;
 import org.vetti.response.LoginResponse;
-import org.vetti.response.SearchVetResponse;
 import org.vetti.service.VetService;
 
 import java.util.HashMap;

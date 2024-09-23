@@ -11,7 +11,6 @@ import org.vetti.model.Vet;
 import org.vetti.repository.VetRepository;
 import org.vetti.response.LoginResponse;
 import org.vetti.response.SearchVetResponse;
-import org.vetti.utils.Utils;
 import org.vetti.utils.VetUtils;
 
 @Service

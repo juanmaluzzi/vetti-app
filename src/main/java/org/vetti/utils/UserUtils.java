@@ -8,7 +8,6 @@ import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.User;
 import org.vetti.model.dto.UpdateUserDTO;
 import org.vetti.repository.UserRepository;
-import org.vetti.repository.VetRepository;
 
 import static org.vetti.utils.Utils.*;
 
