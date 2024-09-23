@@ -3,7 +3,7 @@ package org.vetti.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.vetti.model.UpdateUserDTO;
+import org.vetti.model.dto.UpdateUserDTO;
 import org.vetti.model.User;
 import org.vetti.response.LoginResponse;
 import org.vetti.service.UserService;
@@ -45,8 +45,6 @@ public class UserController {
     @GetMapping("/searchUser/{email}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email){
 
-        User getUser = userService.getUserByEmail(email);
-
-        return ResponseEntity.status(200).body(getUser);
+        return userService.getUserByEmail(email);
     }
 }

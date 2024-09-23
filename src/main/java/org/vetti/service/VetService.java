@@ -6,11 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.vetti.exceptions.NotFoundException;
-import org.vetti.model.UpdateVetDTO;
+import org.vetti.model.dto.UpdateVetDTO;
 import org.vetti.model.Vet;
 import org.vetti.repository.VetRepository;
 import org.vetti.response.LoginResponse;
+import org.vetti.response.SearchVetResponse;
 import org.vetti.utils.Utils;
+import org.vetti.utils.VetUtils;
 
 @Service
 public class VetService {
@@ -22,17 +24,17 @@ public class VetService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private final Utils utils;
+    private final VetUtils vetUtils;
 
     @Autowired
-    public VetService(VetRepository vetRepository, PasswordEncoder passwordEncoder, Utils utils){
+    public VetService(VetRepository vetRepository, PasswordEncoder passwordEncoder, VetUtils vetUtils){
         this.vetRepository = vetRepository;
         this.passwordEncoder = passwordEncoder;
-        this.utils = utils;
+        this.vetUtils = vetUtils;
     }
 
-    public Vet VetRegister(Vet vet){
-        utils.validateVetRegister(vet);
+    public Vet vetRegister(Vet vet){
+        vetUtils.validateVetRegister(vet);
         vet.setPassword(passwordEncoder.encode(vet.getPassword()));
 
         return vetRepository.save(vet);
@@ -54,8 +56,16 @@ public class VetService {
     }
 
     public UpdateVetDTO updateVet(Long id, UpdateVetDTO newVetDetails){
+        return vetUtils.updateVet(id, newVetDetails);
+    }
 
-        return utils.(id, newVetDetails);
+    public ResponseEntity<SearchVetResponse> getVetByEmail(String email){
 
+        Vet vet = vetRepository.findVetByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Vet not found with email: " + email));
+
+        SearchVetResponse response = new SearchVetResponse(vet.getId(), HttpStatus.OK.value(),"Success", vet.getEmail(), vet.getName(), vet.getAddress(), vet.getPhoneNumber(), vet.getCuit(), vet.getRole());
+
+         return ResponseEntity.ok(response);
     }
 }

@@ -1,4 +1,4 @@
-package org.vetti.model;
+package org.vetti.model.dto;
 
 import lombok.*;
 
