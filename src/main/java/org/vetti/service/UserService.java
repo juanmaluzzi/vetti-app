@@ -66,7 +66,17 @@ public class UserService {
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
 
-        SearchUserResponse response = new SearchUserResponse(user.getId(), HttpStatus.OK.value(), "Success", user.getEmail(), user.getName(), user.getLastName(), user.getPhoneNumber(), user.getRole());
+        SearchUserResponse response = new SearchUserResponse(user.getId(), HttpStatus.OK.value(), "Success", user.getEmail(), user.getName(), user.getLastName(), user.getPhoneNumber(), user.getRole(), user.getDni(), user.getAddress(), user.getDistrict());
+
+        return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<SearchUserResponse> getUserById(Long id){
+
+        User user = userRepository.findUserById(id)
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
+
+        SearchUserResponse response = new SearchUserResponse(user.getId(), HttpStatus.OK.value(), "Success", user.getEmail(), user.getName(), user.getLastName(), user.getPhoneNumber(), user.getRole(), user.getDni(), user.getAddress(), user.getDistrict());
 
         return ResponseEntity.ok(response);
     }

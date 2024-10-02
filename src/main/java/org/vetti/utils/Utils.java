@@ -14,6 +14,10 @@ public class Utils {
     public static final String INVALID_ROLE = "role is invalid or empty, field value must be 0, 1 or 2.";
     public static final String EMAIL_ALREADY_EXISTS = "Email already registered.";
     public static final String CUIT_ALREADY_EXISTS = "Cuit already registered.";
+    public static final String INVALID_ADDRESS = "address is invalid or empty";
+    public static final String INVALID_DNI = "DNI is invalid or empty";
+    public static final String INVALID_DISTRICT = "District is invalid or empty";
+    public static final String DNI_ALREADY_EXISTS = "DNI already registered.";
 
     public void validateString(String value, String errorMessage) {
         if (value == null || value.trim().isEmpty() || !value.matches("^[a-zA-Z\\s]+$")) throw new BadRequestException(errorMessage + " Received value: " +  value);
@@ -34,6 +38,12 @@ public class Utils {
     public void validateRole(String value, String errorMessage){
         if (value != null) {
             if (!value.matches(("^[0-2]$"))) throw new BadRequestException(errorMessage + " Received value: " + value);
+        }
+    }
+
+    public void validateDni(String value, String errorMessage){
+        if (value != null) {
+            if (!value.matches(("^\\d{8}$"))) throw new BadRequestException(errorMessage + " Received value: " + value);
         }
     }
 

@@ -19,6 +19,9 @@ public class SearchUserResponse {
     private String lastName;
     private String phoneNumber;
     private String role;
+    private String dni;
+    private String address;
+    private String district;
 
     public SearchUserResponse(String message, int statusCode){
         this.message = message;

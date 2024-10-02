@@ -33,7 +33,15 @@ public class User {
     private String phoneNumber;
 
     @Column(columnDefinition = "varchar(255) default '0'")
-    private String role;
+    private String role = "0";
 
+    @Column(unique = true, nullable = false)
+    private String dni;
+
+    @Column
+    private String address;
+
+    @Column
+    private String district;
 
 }

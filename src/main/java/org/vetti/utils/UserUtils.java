@@ -34,10 +34,16 @@ public class UserUtils {
         utils.validateString(user.getName(), INVALID_STRING);
         utils.validateString(user.getLastName(), INVALID_STRING);
         utils.validateNotEmpty(user.getPassword(), INVALID_PASSWORD);
+        utils.validateNotEmpty(user.getAddress(), INVALID_ADDRESS);
         utils.validatePhoneNumber(user.getPhoneNumber(), INVALID_PHONENUMBER);
         utils.validateRole(user.getRole(), INVALID_ROLE);
+        utils.validateDni(user.getDni(), INVALID_DNI);
+        utils.validateNotEmpty(user.getDistrict(), INVALID_DISTRICT);
         if (findUserByEmail(user.getEmail())) {
             throw new BadRequestException(EMAIL_ALREADY_EXISTS);
+        }
+        if (findUserByDni(user.getDni())) {
+            throw new BadRequestException(DNI_ALREADY_EXISTS);
         }
 
     }
@@ -80,8 +86,23 @@ public class UserUtils {
             utils.validateNotEmpty(newUserDetails.getPassword(), INVALID_PASSWORD);
             existingUser.setPassword(passwordEncoder.encode(newUserDetails.getPassword()));
         }
-        User updatedUser = userRepository.save(existingUser);
 
+        if (newUserDetails.getAddress() != null) {
+            utils.validateNotEmpty(newUserDetails.getAddress(), INVALID_ADDRESS);
+            existingUser.setAddress(newUserDetails.getAddress());
+        }
+
+        if (newUserDetails.getDni() != null) {
+            utils.validateDni(newUserDetails.getDni(), INVALID_DNI);
+            existingUser.setDni(newUserDetails.getDni());
+        }
+
+        if (newUserDetails.getDistrict() != null) {
+            utils.validateNotEmpty(newUserDetails.getDistrict(), INVALID_DISTRICT);
+            existingUser.setDistrict(newUserDetails.getDistrict());
+        }
+
+        User updatedUser = userRepository.save(existingUser);
         return convertToUpdateUserDTO(updatedUser);
     }
 
@@ -99,6 +120,10 @@ public class UserUtils {
 
     private boolean findUserByEmail(String email) {
         return userRepository.findUserByEmail(email).isPresent();
+    }
+
+    private boolean findUserByDni(String dni) {
+        return userRepository.findUserByDni(dni).isPresent();
     }
 
 }
