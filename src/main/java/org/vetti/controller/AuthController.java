@@ -1,6 +1,7 @@
 package org.vetti.controller;
 
 import org.springframework.http.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     // van a quedar hardcodeados por error con el .env
