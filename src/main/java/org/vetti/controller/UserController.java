@@ -43,9 +43,15 @@ public class UserController {
         return ResponseEntity.status(200).body(responseBody);
     }
 
-    @GetMapping("/searchUser/{email}")
+    @GetMapping("/searchUserByEmail/{email}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email){
 
         return userService.getUserByEmail(email);
+    }
+
+    @GetMapping("/searchUserById/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id){
+
+        return userService.getUserById(id);
     }
 }
