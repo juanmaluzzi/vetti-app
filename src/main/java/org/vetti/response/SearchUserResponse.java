@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.vetti.model.Pet;
+import org.vetti.model.dto.PetDTO;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -22,6 +26,7 @@ public class SearchUserResponse {
     private String dni;
     private String address;
     private String district;
+    private List<PetDTO> pets;
 
     public SearchUserResponse(String message, int statusCode){
         this.message = message;

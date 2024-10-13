@@ -3,6 +3,8 @@ package org.vetti.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -15,6 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -44,4 +47,12 @@ public class User {
     @Column
     private String district;
 
+    @Column
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Pet> pets = new ArrayList<>();
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets != null ? pets : new ArrayList<>();
+        this.pets.forEach(pet -> pet.setUser(this));
+    }
 }

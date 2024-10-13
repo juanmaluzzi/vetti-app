@@ -6,12 +6,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.vetti.exceptions.NotFoundException;
+import org.vetti.model.dto.PetDTO;
 import org.vetti.model.dto.UpdateUserDTO;
 import org.vetti.model.User;
 import org.vetti.repository.UserRepository;
 import org.vetti.response.LoginResponse;
 import org.vetti.response.SearchUserResponse;
 import org.vetti.utils.UserUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -36,6 +40,10 @@ public class UserService {
 
         userUtils.validateUserRegister(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        if (user.getPets() != null) {
+            user.getPets().forEach(pet -> pet.setUser(user));
+        }
 
         return userRepository.save(user);
     }
@@ -66,7 +74,11 @@ public class UserService {
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
 
-        SearchUserResponse response = new SearchUserResponse(user.getId(), HttpStatus.OK.value(), "Success", user.getEmail(), user.getName(), user.getLastName(), user.getPhoneNumber(), user.getRole(), user.getDni(), user.getAddress(), user.getDistrict());
+        List<PetDTO> petDTOs = user.getPets().stream()
+                .map(pet -> new PetDTO(pet.getId(), pet.getName(), pet.getType()))
+                .collect(Collectors.toList());
+
+        SearchUserResponse response = new SearchUserResponse(user.getId(), HttpStatus.OK.value(), "Success", user.getEmail(), user.getName(), user.getLastName(), user.getPhoneNumber(), user.getRole(), user.getDni(), user.getAddress(), user.getDistrict(), petDTOs);
 
         return ResponseEntity.ok(response);
     }
@@ -76,7 +88,11 @@ public class UserService {
         User user = userRepository.findUserById(id)
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
 
-        SearchUserResponse response = new SearchUserResponse(user.getId(), HttpStatus.OK.value(), "Success", user.getEmail(), user.getName(), user.getLastName(), user.getPhoneNumber(), user.getRole(), user.getDni(), user.getAddress(), user.getDistrict());
+        List<PetDTO> petDTOs = user.getPets().stream()
+                .map(pet -> new PetDTO(pet.getId(), pet.getName(), pet.getType()))
+                .collect(Collectors.toList());
+
+        SearchUserResponse response = new SearchUserResponse(user.getId(), HttpStatus.OK.value(), "Success", user.getEmail(), user.getName(), user.getLastName(), user.getPhoneNumber(), user.getRole(), user.getDni(), user.getAddress(), user.getDistrict(), petDTOs);
 
         return ResponseEntity.ok(response);
     }
