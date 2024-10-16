@@ -17,12 +17,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/*", "/vet/*", "/pets/*").authenticated()
+                // Permitir acceso sin autenticación a los siguientes endpoints
+                .antMatchers("/user/*", "/vet/*", "/pets/*").permitAll()
+                // Cualquier otra solicitud debe estar autenticada
+                .anyRequest().authenticated()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .oauth2ResourceServer()
-                .jwt();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // Nota: Hemos eliminado .oauth2ResourceServer().jwt() para no requerir autenticación JWT
     }
 
     @Bean
