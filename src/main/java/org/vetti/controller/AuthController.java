@@ -1,5 +1,6 @@
 package org.vetti.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = "*")
 public class AuthController {
@@ -24,6 +26,7 @@ public class AuthController {
 
     @PostMapping("/getToken")
     public ResponseEntity<Map<String, String>> getAuthToken(@RequestHeader("Authorization") String apiKey) {
+        log.info("Empezando a hacer el request");
         if (!apiKey.equals(validApiKey)) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Unauthorized: Invalid API Key");
@@ -52,6 +55,8 @@ public class AuthController {
 
                 Map<String, String> customResponse = new HashMap<>();
                 customResponse.put("access_token", "Bearer " + accessToken);
+
+                log.info(customResponse.toString());
 
                 return ResponseEntity.ok(customResponse);
             } else {

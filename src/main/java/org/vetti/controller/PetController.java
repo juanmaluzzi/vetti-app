@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.Pet;
 import org.vetti.model.User;
-import org.vetti.model.dto.UpdateUserDTO;
 import org.vetti.repository.PetRepository;
 import org.vetti.repository.UserRepository;
 import org.vetti.service.PetService;
