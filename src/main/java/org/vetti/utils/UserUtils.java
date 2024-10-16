@@ -34,11 +34,9 @@ public class UserUtils {
         utils.validateString(user.getName(), INVALID_STRING);
         utils.validateString(user.getLastName(), INVALID_STRING);
         utils.validateNotEmpty(user.getPassword(), INVALID_PASSWORD);
-        utils.validateNotEmpty(user.getAddress(), INVALID_ADDRESS);
         utils.validatePhoneNumber(user.getPhoneNumber(), INVALID_PHONENUMBER);
         utils.validateRole(user.getRole(), INVALID_ROLE);
         utils.validateDni(user.getDni(), INVALID_DNI);
-        utils.validateNotEmpty(user.getDistrict(), INVALID_DISTRICT);
         if (findUserByEmail(user.getEmail())) {
             throw new BadRequestException(EMAIL_ALREADY_EXISTS);
         }
