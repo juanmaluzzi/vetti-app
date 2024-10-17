@@ -16,6 +16,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .cors()  // Habilitar manejo de CORS
+                .and()
                 .authorizeRequests()
                 .antMatchers("/user/*", "/vet/*", "/pets/*").authenticated()
                 .and()
