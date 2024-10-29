@@ -1,10 +1,13 @@
 package org.vetti.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.vetti.controller.UserController;
 import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.dto.PetDTO;
 import org.vetti.model.dto.UpdateUserDTO;
@@ -17,6 +20,7 @@ import org.vetti.utils.UserUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class UserService {
 
@@ -28,6 +32,8 @@ public class UserService {
 
     @Autowired
     private final UserUtils userUtils;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserUtils userUtils) {
@@ -49,15 +55,19 @@ public class UserService {
     }
 
     public ResponseEntity<LoginResponse> loginUser(String email, String password) {
+            logger.info("ENTRANDO la validacion del email");
             User user = userRepository.findUserByEmail(email)
                     .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
+            logger.info("SALIENDO la validacion del email");
 
             if (passwordEncoder.matches(password, user.getPassword())) {
                 String role = user.getRole();
                 LoginResponse response = new LoginResponse("Success", HttpStatus.OK.value(), role, user.getId());
+                logger.info("pasamos el match de la pw");
                 return ResponseEntity.ok(response);
             } else {
                 LoginResponse response = new LoginResponse("invalid credentials, please check your email or password.", HttpStatus.UNAUTHORIZED.value());
+                logger.info("Credenciales invalidas.");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
     }

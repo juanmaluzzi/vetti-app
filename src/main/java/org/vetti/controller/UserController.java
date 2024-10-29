@@ -8,6 +8,8 @@ import org.vetti.model.dto.UpdateUserDTO;
 import org.vetti.model.User;
 import org.vetti.response.LoginResponse;
 import org.vetti.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         User registeredUser = userService.registerUser(user);
@@ -28,6 +32,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody User loginUser) {
+        logger.info(String.valueOf(loginUser.getEmail()));
+        logger.info("llegamos al endpoint");
         return userService.loginUser(loginUser.getEmail(), loginUser.getPassword());
     }
 
