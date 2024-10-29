@@ -29,7 +29,6 @@ public class AuthController {
             errorResponse.put("error", "Unauthorized: Invalid API Key");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
-
         RestTemplate restTemplate = new RestTemplate();
 
         Map<String, String> requestBody = new HashMap<>();
