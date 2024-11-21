@@ -49,22 +49,26 @@ public class VetUtils {
         Vet existingVet = vetRepository.findVetById(id)
                 .orElseThrow(() -> new NotFoundException("Vet not found with id: " + id));
 
-        if (newVetDetails.getName() != null) {
+        String name = newVetDetails.getName();
+        if (name != null && !name.trim().isEmpty()) {
             utils.validateString(newVetDetails.getName(), INVALID_STRING);
             existingVet.setName(newVetDetails.getName());
         }
 
-        if (newVetDetails.getAddress() != null) {
+        String address = newVetDetails.getAddress();
+        if (address != null && !address.trim().isEmpty()) {
             validateAddress(newVetDetails.getAddress(), INVALID_STRING);
             existingVet.setAddress(newVetDetails.getAddress());
         }
 
-        if (newVetDetails.getCuit() != null) {
+        String cuit = newVetDetails.getCuit();
+        if (cuit != null && !cuit.trim().isEmpty()) {
             validateCuit(newVetDetails.getCuit(), INVALID_CUIT);
             existingVet.setCuit(newVetDetails.getCuit());
         }
 
-        if (newVetDetails.getEmail() != null) {
+        String email = newVetDetails.getEmail();
+        if (email != null && !email.trim().isEmpty()) {
             utils.validateEmail(newVetDetails.getEmail(), INVALID_EMAIL);
 
             if (findVetByEmail(newVetDetails.getEmail())) {
@@ -73,17 +77,20 @@ public class VetUtils {
             existingVet.setEmail(newVetDetails.getEmail());
         }
 
-        if (newVetDetails.getRole() != null) {
+        String role = newVetDetails.getRole();
+        if (role != null && !role.trim().isEmpty() ) {
             utils.validateRole(newVetDetails.getRole(), INVALID_ROLE);
             existingVet.setRole(newVetDetails.getRole());
         }
 
-        if (newVetDetails.getPhoneNumber() != null) {
+        String phoneNumber = newVetDetails.getPhoneNumber();
+        if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
             utils.validatePhoneNumber(newVetDetails.getPhoneNumber(), INVALID_PHONENUMBER);
             existingVet.setPhoneNumber(newVetDetails.getPhoneNumber());
         }
 
-        if (newVetDetails.getPassword() != null) {
+        String password = newVetDetails.getPassword();
+        if (password != null && !password.trim().isEmpty()) {
             utils.validateNotEmpty(newVetDetails.getPassword(), INVALID_PASSWORD);
             existingVet.setPassword(passwordEncoder.encode(newVetDetails.getPassword()));
         }

@@ -53,17 +53,20 @@ public class UserUtils {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
 
-        if (newUserDetails.getName() != null) {
+        String name = newUserDetails.getName();
+        if (name != null && !name.trim().isEmpty()) {
             utils.validateString(newUserDetails.getName(), INVALID_STRING);
             existingUser.setName(newUserDetails.getName());
         }
 
-        if (newUserDetails.getLastName() != null) {
+        String lastName = newUserDetails.getLastName();
+        if (lastName != null && !lastName.trim().isEmpty()) {
             utils.validateString(newUserDetails.getLastName(), INVALID_STRING);
             existingUser.setLastName(newUserDetails.getLastName());
         }
 
-        if (newUserDetails.getEmail() != null) {
+        String email = newUserDetails.getEmail();
+        if (email != null && !email.trim().isEmpty()) {
             utils.validateEmail(newUserDetails.getEmail(), INVALID_EMAIL);
 
             if (findUserByEmail(newUserDetails.getEmail())) {
@@ -72,32 +75,38 @@ public class UserUtils {
             existingUser.setEmail(newUserDetails.getEmail());
         }
 
-        if (newUserDetails.getRole() != null) {
+        String role = newUserDetails.getRole();
+        if (role != null && !role.trim().isEmpty()) {
             utils.validateRole(newUserDetails.getRole(), INVALID_ROLE);
             existingUser.setRole(newUserDetails.getRole());
         }
 
-        if (newUserDetails.getPhoneNumber() != null) {
+        String phoneNumber = newUserDetails.getPhoneNumber();
+        if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
             utils.validatePhoneNumber(newUserDetails.getPhoneNumber(), INVALID_PHONENUMBER);
             existingUser.setPhoneNumber(newUserDetails.getPhoneNumber());
         }
 
-        if (newUserDetails.getPassword() != null) {
+        String password = newUserDetails.getPassword();
+        if (password != null && !password.trim().isEmpty()) {
             utils.validateNotEmpty(newUserDetails.getPassword(), INVALID_PASSWORD);
             existingUser.setPassword(passwordEncoder.encode(newUserDetails.getPassword()));
         }
 
-        if (newUserDetails.getAddress() != null) {
+        String address = newUserDetails.getAddress();
+        if (address != null && !address.trim().isEmpty()) {
             utils.validateNotEmpty(newUserDetails.getAddress(), INVALID_ADDRESS);
             existingUser.setAddress(newUserDetails.getAddress());
         }
 
-        if (newUserDetails.getDni() != null) {
+        String dni = newUserDetails.getDni();
+        if (dni != null && !dni.trim().isEmpty()) {
             utils.validateDni(newUserDetails.getDni(), INVALID_DNI);
             existingUser.setDni(newUserDetails.getDni());
         }
 
-        if (newUserDetails.getDistrict() != null) {
+        String district = newUserDetails.getDistrict();
+        if (district != null && !district.trim().isEmpty()) {
             utils.validateNotEmpty(newUserDetails.getDistrict(), INVALID_DISTRICT);
             existingUser.setDistrict(newUserDetails.getDistrict());
         }
