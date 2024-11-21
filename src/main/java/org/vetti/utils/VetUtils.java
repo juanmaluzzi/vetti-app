@@ -87,6 +87,12 @@ public class VetUtils {
             utils.validateNotEmpty(newVetDetails.getPassword(), INVALID_PASSWORD);
             existingVet.setPassword(passwordEncoder.encode(newVetDetails.getPassword()));
         }
+
+        if (newVetDetails.getIsEmergencyVet() != null) {
+            utils.validateBoolean(newVetDetails.getIsEmergencyVet(), INVALID_EMERGENCY_VET);
+            existingVet.setIsEmergencyVet(newVetDetails.getIsEmergencyVet());
+        }
+        System.out.println("Antes de guardar: " + existingVet.getIsEmergencyVet());
         Vet updatedVet = vetRepository.save(existingVet);
 
         return convertToUpdateVetDTO(updatedVet);
@@ -99,6 +105,7 @@ public class VetUtils {
         dto.setEmail(vet.getEmail());
         dto.setPhoneNumber(vet.getPhoneNumber());
         dto.setRole(vet.getRole());
+        dto.setIsEmergencyVet(vet.getIsEmergencyVet());
 
         return dto;
     }

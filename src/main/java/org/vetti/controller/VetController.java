@@ -43,8 +43,13 @@ public class VetController {
         return ResponseEntity.status(200).body(responseBody);
     }
 
-    @GetMapping("/searchVet/{email}")
+    @GetMapping("/searchVetByEmail/{email}")
     public ResponseEntity<?> getVetByEmail(@PathVariable String email){
         return vetService.getVetByEmail(email);
+    }
+
+    @GetMapping("/searchVetById/{id}")
+    public ResponseEntity<?> getVetById(@PathVariable Long id){
+        return vetService.getVetById(id);
     }
 }

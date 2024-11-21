@@ -20,6 +20,7 @@ public class SearchVetResponse {
     private String phoneNumber;
     private String cuit;
     private String role;
+    private Boolean isEmergencyVet;
 
     public SearchVetResponse(String message, int statusCode){
         this.message = message;

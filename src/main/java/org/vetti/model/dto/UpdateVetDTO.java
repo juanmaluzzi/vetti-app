@@ -15,4 +15,5 @@ public class UpdateVetDTO {
     private String phoneNumber;
     private String role;
     private String password;
+    private Boolean isEmergencyVet;
 }
