@@ -67,4 +67,12 @@ public class VetService {
 
          return ResponseEntity.ok(response);
     }
+
+    public Vet updateCalendlyToken(Long vetId, String calendlyToken) {
+        Vet vet = vetRepository.findById(vetId)
+                .orElseThrow(() -> new NotFoundException("Vet not found with ID: " + vetId));
+
+        vet.setCalendlyToken(calendlyToken);
+        return vetRepository.save(vet);
+    }
 }

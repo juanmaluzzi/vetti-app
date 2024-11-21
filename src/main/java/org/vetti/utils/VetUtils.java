@@ -114,6 +114,6 @@ public class VetUtils {
     private boolean findVetByCuit(String cuit) {return vetRepository.findVetByCuit(cuit).isPresent();}
 
     private void validateCuit(String value, String errorMessage){
-        if (value == null || value.trim().isEmpty() || !value.matches("^(20|23|24|27|30|33|34)\\d{8}\\d$")) throw new BadRequestException(errorMessage + " Received value: " + value);
+        if (value == null || value.trim().isEmpty() || !value.matches("^.{1,10}$")) throw new BadRequestException(errorMessage + " Received value: " + value);
     }
 }

@@ -36,3 +36,7 @@ spring:
     show-sql: true
     open-in-view: false
 
+calendly:
+  api:
+    base-url: https://api.calendly.com
+
