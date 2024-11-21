@@ -18,14 +18,17 @@ public class VetUtils {
 
     private final Utils utils;
 
+    private final VetUtils vetUtils;
+
     @Autowired
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public VetUtils(Utils utils, VetRepository vetRepository, PasswordEncoder passwordEncoder) {
+    public VetUtils(Utils utils, VetRepository vetRepository, PasswordEncoder passwordEncoder, VetUtils vetUtils) {
         this.utils = utils;
         this.vetRepository = vetRepository;
         this.passwordEncoder = passwordEncoder;
+        this.vetUtils = vetUtils;
     }
 
     public void validateVetRegister(Vet vet){
@@ -60,7 +63,7 @@ public class VetUtils {
         }
 
         if (newVetDetails.getCuit() != null) {
-            utils.validateString(newVetDetails.getCuit(), INVALID_CUIT);
+            vetUtils.validateCuit(newVetDetails.getCuit(), INVALID_CUIT);
             existingVet.setCuit(newVetDetails.getCuit());
         }
 
