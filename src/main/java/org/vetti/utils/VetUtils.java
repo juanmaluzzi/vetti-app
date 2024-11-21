@@ -18,17 +18,14 @@ public class VetUtils {
 
     private final Utils utils;
 
-    private final VetUtils vetUtils;
-
     @Autowired
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public VetUtils(Utils utils, VetRepository vetRepository, PasswordEncoder passwordEncoder, VetUtils vetUtils) {
+    public VetUtils(Utils utils, VetRepository vetRepository, PasswordEncoder passwordEncoder) {
         this.utils = utils;
         this.vetRepository = vetRepository;
         this.passwordEncoder = passwordEncoder;
-        this.vetUtils = vetUtils;
     }
 
     public void validateVetRegister(Vet vet){
@@ -63,7 +60,7 @@ public class VetUtils {
         }
 
         if (newVetDetails.getCuit() != null) {
-            vetUtils.validateCuit(newVetDetails.getCuit(), INVALID_CUIT);
+            validateCuit(newVetDetails.getCuit(), INVALID_CUIT);
             existingVet.setCuit(newVetDetails.getCuit());
         }
 
@@ -117,6 +114,6 @@ public class VetUtils {
     private boolean findVetByCuit(String cuit) {return vetRepository.findVetByCuit(cuit).isPresent();}
 
     private void validateCuit(String value, String errorMessage){
-        if (value == null || value.trim().isEmpty() || !value.matches("^.{1,10}$")) throw new BadRequestException(errorMessage + " Received value: " + value);
+        if (value == null || value.trim().isEmpty() || !value.matches("^\\d{8,10}$")) throw new BadRequestException(errorMessage + " Received value: " + value);
     }
 }
