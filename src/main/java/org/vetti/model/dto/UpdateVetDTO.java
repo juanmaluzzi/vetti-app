@@ -16,4 +16,6 @@ public class UpdateVetDTO {
     private String role;
     private String password;
     private Boolean isEmergencyVet;
+    private String calendlyEmail;
+    private String calendlyCalendar;
 }

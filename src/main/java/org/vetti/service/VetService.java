@@ -63,7 +63,7 @@ public class VetService {
         Vet vet = vetRepository.findVetByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Vet not found with email: " + email));
 
-        SearchVetResponse response = new SearchVetResponse(vet.getId(), HttpStatus.OK.value(),"Success", vet.getEmail(), vet.getName(), vet.getAddress(), vet.getPhoneNumber(), vet.getCuit(), vet.getRole(), vet.getIsEmergencyVet());
+        SearchVetResponse response = new SearchVetResponse(vet.getId(), HttpStatus.OK.value(),"Success", vet.getEmail(), vet.getName(), vet.getAddress(), vet.getPhoneNumber(), vet.getCuit(), vet.getRole(), vet.getIsEmergencyVet(), vet.getCalendlyEmail(), vet.getCalendlyCalendar());
 
          return ResponseEntity.ok(response);
     }
@@ -81,7 +81,7 @@ public class VetService {
         Vet vet = vetRepository.findVetById(id)
                 .orElseThrow(() -> new NotFoundException("Vet not found with id: " + id));
 
-        SearchVetResponse response = new SearchVetResponse(vet.getId(), HttpStatus.OK.value(),"Success", vet.getEmail(), vet.getName(), vet.getAddress(), vet.getPhoneNumber(), vet.getCuit(), vet.getRole(), vet.getIsEmergencyVet());
+        SearchVetResponse response = new SearchVetResponse(vet.getId(), HttpStatus.OK.value(),"Success", vet.getEmail(), vet.getName(), vet.getAddress(), vet.getPhoneNumber(), vet.getCuit(), vet.getRole(), vet.getIsEmergencyVet(), vet.getCalendlyEmail(), vet.getCalendlyCalendar());
 
         return ResponseEntity.ok(response);
     }

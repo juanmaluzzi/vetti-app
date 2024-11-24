@@ -21,6 +21,8 @@ public class SearchVetResponse {
     private String cuit;
     private String role;
     private Boolean isEmergencyVet;
+    private String calendlyEmail;
+    private String calendlyCalendar;
 
     public SearchVetResponse(String message, int statusCode){
         this.message = message;

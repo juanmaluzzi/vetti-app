@@ -99,7 +99,16 @@ public class VetUtils {
             utils.validateBoolean(newVetDetails.getIsEmergencyVet(), INVALID_EMERGENCY_VET);
             existingVet.setIsEmergencyVet(newVetDetails.getIsEmergencyVet());
         }
-        System.out.println("Antes de guardar: " + existingVet.getIsEmergencyVet());
+
+        if(newVetDetails.getCalendlyEmail() != null){
+            utils.validateEmail(newVetDetails.getCalendlyEmail(), INVALID_EMERGENCY_VET);
+            existingVet.setCalendlyEmail(newVetDetails.getCalendlyEmail());
+        }
+
+        if(newVetDetails.getCalendlyCalendar() != null){
+            existingVet.setCalendlyCalendar(newVetDetails.getCalendlyCalendar());
+        }
+
         Vet updatedVet = vetRepository.save(existingVet);
 
         return convertToUpdateVetDTO(updatedVet);

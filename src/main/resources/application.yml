@@ -38,5 +38,6 @@ spring:
 
 calendly:
   api:
-    base-url: https://api.calendly.com
-
+    token: eyJraWQiOiIxY2UxZTEzNjE3ZGNmNzY2YjNjZWJjY2Y4ZGM1YmFmYThhNjVlNjg0MDIzZjdjMzJiZTgzNDliMjM4MDEzNWI0IiwidHlwIjoiUEFUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1dGguY2FsZW5kbHkuY29tIiwiaWF0IjoxNzMyNDE0MjIxLCJqdGkiOiI2MGIzZDA3ZC1iYTViLTQ0ZTQtOTFmMy1kZjMwZGU0MmZhM2UiLCJ1c2VyX3V1aWQiOiI0N2EyYWM4Zi00NGU3LTQ2NmUtOTJjOC1jZDczNjQ1MzI1MWMifQ.bVw6uLVcgd_lSYu5qc4AkVsjx7F9prYgKdeONHJ_iffMPf4bMeMWjE6bMYdxaZ85_voNopDN0q_xx-AQsQpHNA
+  organization:
+    uuid: 41b8ef68-cda3-497c-a534-aa634efe91eb

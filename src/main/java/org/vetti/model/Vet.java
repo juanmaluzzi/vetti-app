@@ -44,4 +44,10 @@ public class Vet {
     @Column(name = "is_emergency_vet", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isEmergencyVet = false;
 
+    @Column(name = "calendly_email", columnDefinition = "varchar(255)")
+    private String calendlyEmail;
+
+    @Column(name = "calendly_calendar", columnDefinition = "varchar(255)")
+    private String calendlyCalendar;
+
 }
