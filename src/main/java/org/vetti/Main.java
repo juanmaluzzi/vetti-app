@@ -20,7 +20,7 @@ public class Main {
                 System.out.println("Error cargando el archivo .env: " + e.getMessage());
             }
         } else {
-            System.out.println("Usando variables de entorno configuradas en producción.");
+            System.out.println("Se usaron las variables del yaml.");
         }
 
         SpringApplication.run(Main.class, args);
