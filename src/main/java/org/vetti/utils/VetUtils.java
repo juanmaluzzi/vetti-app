@@ -9,6 +9,8 @@ import org.vetti.model.Vet;
 import org.vetti.model.dto.UpdateVetDTO;
 import org.vetti.repository.VetRepository;
 
+import java.util.Objects;
+
 import static org.vetti.utils.Utils.*;
 
 @Component
@@ -98,6 +100,7 @@ public class VetUtils {
         String status = newVetDetails.getStatus();
         if(status != null && !status.trim().isEmpty()){
             utils.validateString(status, INVALID_STATUS);
+            validateStatus(status, INVALID_STATUSFIELD);
             existingVet.setStatus(status);
         }
 
@@ -146,5 +149,11 @@ public class VetUtils {
 
     private void validateCuit(String value, String errorMessage){
         if (value == null || value.trim().isEmpty() || !value.matches("^\\d{8,10}$")) throw new BadRequestException(errorMessage + " Received value: " + value);
+    }
+
+    public void validateStatus(String status, String errorMessage){
+        if (!"enabled".equalsIgnoreCase(status) && !"disabled".equalsIgnoreCase(status)){
+            throw new BadRequestException(errorMessage + " Received value: " + status + ", expected: enabled or disabled");
+        }
     }
 }

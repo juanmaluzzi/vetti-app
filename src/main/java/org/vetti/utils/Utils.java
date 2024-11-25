@@ -20,6 +20,7 @@ public class Utils {
     public static final String DNI_ALREADY_EXISTS = "DNI already registered.";
     public static final String INVALID_EMERGENCY_VET = "Emergency vet field is invalid";
     public static final String INVALID_STATUS = "Status field is invalid or empty";
+    public static final String INVALID_STATUSFIELD = "Status is invalid.";
 
     public void validateString(String value, String errorMessage) {
         if (value == null || value.trim().isEmpty() || !value.matches("^[a-zA-Z\\s]+$")) throw new BadRequestException(errorMessage + " Received value: " +  value);
@@ -52,6 +53,12 @@ public class Utils {
     public void validateBoolean(Boolean value, String errorMessage) {
         if (value == null) {
             throw new BadRequestException(errorMessage);
+        }
+    }
+
+    public void validateStatus(String status){
+        if (!"active".equalsIgnoreCase(status) && !"canceled".equalsIgnoreCase(status)){
+            throw new BadRequestException("Received value: " + status + " || expected: active or canceled");
         }
     }
 

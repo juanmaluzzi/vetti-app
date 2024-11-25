@@ -36,7 +36,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody User loginUser) {
         logger.info(String.valueOf(loginUser.getEmail()));
-        logger.info("llegamos al endpoint");
         return userService.loginUser(loginUser.getEmail(), loginUser.getPassword());
     }
 

@@ -14,4 +14,5 @@ public interface VetRepository extends JpaRepository<Vet, Long> {
     Optional<Vet> findVetById(Long id);
 
     Optional<Vet> findVetByCuit(String cuil);
+
 }

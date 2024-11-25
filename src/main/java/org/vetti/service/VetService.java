@@ -13,6 +13,9 @@ import org.vetti.response.LoginResponse;
 import org.vetti.response.SearchVetResponse;
 import org.vetti.utils.VetUtils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class VetService {
 
@@ -46,10 +49,10 @@ public class VetService {
 
         if (passwordEncoder.matches(password, vet.getPassword())) {
             String role = vet.getRole();
-            LoginResponse response = new LoginResponse("Success", HttpStatus.OK.value(), role, vet.getId());
+            LoginResponse response = new LoginResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, vet.getId());
             return ResponseEntity.ok(response);
         } else {
-            LoginResponse response = new LoginResponse("invalid credentials, please check your email or password.", HttpStatus.UNAUTHORIZED.value());
+            LoginResponse response = new LoginResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
@@ -84,5 +87,34 @@ public class VetService {
         SearchVetResponse response = new SearchVetResponse(vet.getId(), HttpStatus.OK.value(),"Success", vet.getEmail(), vet.getName(), vet.getAddress(), vet.getPhoneNumber(), vet.getCuit(), vet.getRole(), vet.getStatus(), vet.getIsEmergencyVet(), vet.getCalendlyEmail(), vet.getCalendlyCalendar());
 
         return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<List<SearchVetResponse>> getAllVets(){
+
+        List<Vet> vets = vetRepository.findAll();
+
+        if (vets.isEmpty()) {
+            throw new NotFoundException("No se encontraron veterinarias.");
+        }
+
+        List<SearchVetResponse> responseList = vets.stream()
+                .map(vet -> new SearchVetResponse(
+                        vet.getId(),
+                        HttpStatus.OK.value(),
+                        "Success",
+                        vet.getEmail(),
+                        vet.getName(),
+                        vet.getAddress(),
+                        vet.getPhoneNumber(),
+                        vet.getCuit(),
+                        vet.getRole(),
+                        vet.getStatus(),
+                        vet.getIsEmergencyVet(),
+                        vet.getCalendlyEmail(),
+                        vet.getCalendlyCalendar()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responseList);
     }
 }

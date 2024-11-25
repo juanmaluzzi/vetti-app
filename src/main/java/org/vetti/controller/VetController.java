@@ -43,6 +43,11 @@ public class VetController {
         return ResponseEntity.status(200).body(responseBody);
     }
 
+    @GetMapping("/searchVets")
+    public ResponseEntity<?> getAllVets(){
+        return vetService.getAllVets();
+    }
+
     @GetMapping("/searchVetByEmail/{email}")
     public ResponseEntity<?> getVetByEmail(@PathVariable String email){
         return vetService.getVetByEmail(email);

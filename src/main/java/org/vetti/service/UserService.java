@@ -55,18 +55,15 @@ public class UserService {
     }
 
     public ResponseEntity<LoginResponse> loginUser(String email, String password) {
-            logger.info("ENTRANDO la validacion del email");
             User user = userRepository.findUserByEmail(email)
                     .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
-            logger.info("SALIENDO la validacion del email");
 
             if (passwordEncoder.matches(password, user.getPassword())) {
                 String role = user.getRole();
-                LoginResponse response = new LoginResponse("Success", HttpStatus.OK.value(), role, user.getId());
-                logger.info("pasamos el match de la pw");
+                LoginResponse response = new LoginResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, user.getId());
                 return ResponseEntity.ok(response);
             } else {
-                LoginResponse response = new LoginResponse("invalid credentials, please check your email or password.", HttpStatus.UNAUTHORIZED.value());
+                LoginResponse response = new LoginResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());
                 logger.info("Credenciales invalidas.");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
