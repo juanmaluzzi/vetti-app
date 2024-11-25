@@ -39,12 +39,16 @@ public class VetService {
         vetUtils.validateVetRegister(vet);
         vet.setPassword(passwordEncoder.encode(vet.getPassword()));
 
+        if (vet.getEmail() != null) {
+            vet.setEmail(vet.getEmail().toLowerCase());
+        }
+
         return vetRepository.save(vet);
     }
 
     public ResponseEntity<LoginResponse> loginVet(String email, String password) {
 
-        Vet vet = vetRepository.findVetByEmail(email)
+        Vet vet = vetRepository.findVetByEmail(email.toLowerCase())
                 .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
 
         if (passwordEncoder.matches(password, vet.getPassword())) {

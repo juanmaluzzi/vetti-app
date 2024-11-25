@@ -51,16 +51,20 @@ public class UserService {
             user.getPets().forEach(pet -> pet.setUser(user));
         }
 
+        if (user.getEmail() != null) {
+            user.setEmail(user.getEmail().toLowerCase());
+        }
+
         return userRepository.save(user);
     }
 
     public ResponseEntity<LoginResponse> loginUser(String email, String password) {
-            User user = userRepository.findUserByEmail(email)
+            User user = userRepository.findUserByEmail(email.toLowerCase())
                     .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
 
             if (passwordEncoder.matches(password, user.getPassword())) {
                 String role = user.getRole();
-                LoginResponse response = new LoginResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, user.getId());
+                LoginResponse response = new LoginResponse("Success", HttpStatus.OK.value(), role, user.getId());
                 return ResponseEntity.ok(response);
             } else {
                 LoginResponse response = new LoginResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());
