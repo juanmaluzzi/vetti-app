@@ -38,6 +38,9 @@ public class Vet {
     @Column(columnDefinition = "varchar(255) default '0'")
     private String role;
 
+    @Column
+    private String status = "disabled";
+
     @Column(name = "calendly_token", nullable = true)
     private String calendlyToken;
 

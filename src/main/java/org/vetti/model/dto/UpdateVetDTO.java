@@ -14,6 +14,7 @@ public class UpdateVetDTO {
     private String address;
     private String phoneNumber;
     private String role;
+    private String status;
     private String password;
     private Boolean isEmergencyVet;
     private String calendlyEmail;

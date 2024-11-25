@@ -20,6 +20,7 @@ public class SearchVetResponse {
     private String phoneNumber;
     private String cuit;
     private String role;
+    private String status;
     private Boolean isEmergencyVet;
     private String calendlyEmail;
     private String calendlyCalendar;

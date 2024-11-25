@@ -51,48 +51,54 @@ public class VetUtils {
 
         String name = newVetDetails.getName();
         if (name != null && !name.trim().isEmpty()) {
-            utils.validateString(newVetDetails.getName(), INVALID_STRING);
-            existingVet.setName(newVetDetails.getName());
+            utils.validateString(name, INVALID_STRING);
+            existingVet.setName(name);
         }
 
         String address = newVetDetails.getAddress();
         if (address != null && !address.trim().isEmpty()) {
-            validateAddress(newVetDetails.getAddress(), INVALID_STRING);
-            existingVet.setAddress(newVetDetails.getAddress());
+            validateAddress(address, INVALID_STRING);
+            existingVet.setAddress(address);
         }
 
         String cuit = newVetDetails.getCuit();
         if (cuit != null && !cuit.trim().isEmpty()) {
-            validateCuit(newVetDetails.getCuit(), INVALID_CUIT);
-            existingVet.setCuit(newVetDetails.getCuit());
+            validateCuit(cuit, INVALID_CUIT);
+            existingVet.setCuit(cuit);
         }
 
         String email = newVetDetails.getEmail();
         if (email != null && !email.trim().isEmpty()) {
-            utils.validateEmail(newVetDetails.getEmail(), INVALID_EMAIL);
+            utils.validateEmail(email, INVALID_EMAIL);
 
-            if (findVetByEmail(newVetDetails.getEmail())) {
+            if (findVetByEmail(email)) {
                 throw new BadRequestException(EMAIL_ALREADY_EXISTS);
             }
-            existingVet.setEmail(newVetDetails.getEmail());
+            existingVet.setEmail(email);
         }
 
         String role = newVetDetails.getRole();
         if (role != null && !role.trim().isEmpty() ) {
-            utils.validateRole(newVetDetails.getRole(), INVALID_ROLE);
-            existingVet.setRole(newVetDetails.getRole());
+            utils.validateRole(role, INVALID_ROLE);
+            existingVet.setRole(role);
         }
 
         String phoneNumber = newVetDetails.getPhoneNumber();
         if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
-            utils.validatePhoneNumber(newVetDetails.getPhoneNumber(), INVALID_PHONENUMBER);
-            existingVet.setPhoneNumber(newVetDetails.getPhoneNumber());
+            utils.validatePhoneNumber(phoneNumber, INVALID_PHONENUMBER);
+            existingVet.setPhoneNumber(phoneNumber);
         }
 
         String password = newVetDetails.getPassword();
         if (password != null && !password.trim().isEmpty()) {
-            utils.validateNotEmpty(newVetDetails.getPassword(), INVALID_PASSWORD);
-            existingVet.setPassword(passwordEncoder.encode(newVetDetails.getPassword()));
+            utils.validateNotEmpty(password, INVALID_PASSWORD);
+            existingVet.setPassword(passwordEncoder.encode(password));
+        }
+
+        String status = newVetDetails.getStatus();
+        if(status != null && !status.trim().isEmpty()){
+            utils.validateString(status, INVALID_STATUS);
+            existingVet.setStatus(status);
         }
 
         if (newVetDetails.getIsEmergencyVet() != null) {
@@ -100,13 +106,15 @@ public class VetUtils {
             existingVet.setIsEmergencyVet(newVetDetails.getIsEmergencyVet());
         }
 
-        if(newVetDetails.getCalendlyEmail() != null){
-            utils.validateEmail(newVetDetails.getCalendlyEmail(), INVALID_EMERGENCY_VET);
-            existingVet.setCalendlyEmail(newVetDetails.getCalendlyEmail());
+        String calendlyEmail = newVetDetails.getCalendlyEmail();
+        if(calendlyEmail != null){
+            utils.validateEmail(calendlyEmail, INVALID_EMERGENCY_VET);
+            existingVet.setCalendlyEmail(calendlyEmail);
         }
 
-        if(newVetDetails.getCalendlyCalendar() != null){
-            existingVet.setCalendlyCalendar(newVetDetails.getCalendlyCalendar());
+        String calendlyCalendar = newVetDetails.getCalendlyCalendar();
+        if(calendlyCalendar != null){
+            existingVet.setCalendlyCalendar(calendlyCalendar);
         }
 
         Vet updatedVet = vetRepository.save(existingVet);
