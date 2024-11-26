@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.vetti.model.dto.GetEventsDTO;
 import org.vetti.model.dto.GetUsersEventsDTO;
 import org.vetti.model.dto.GetAppointmentsInvitesDTO;
 import org.vetti.model.dto.GetAppointmentsDTO;
@@ -177,6 +178,32 @@ public class CalendlyService {
         SearchVetResponse vetResponse = response.getBody();
         String calendlyEmail = vetResponse.getCalendlyEmail();
         return calendlyEmail;
+    }
+
+    public List<GetEventsDTO> getEventsList() {
+        String url = String.format(
+                "https://api.calendly.com/event_types?organization=https://api.calendly.com/organizations/%s",
+                organizationUuid
+        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + calendlyApiToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<JsonNode> response = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
+
+        JsonNode events = response.getBody().path("collection");
+
+        List<GetEventsDTO> eventList = new ArrayList<>();
+        for (JsonNode eventNode : events) {
+            GetEventsDTO event = new GetEventsDTO();
+            event.setEventName(eventNode.path("name").asText());
+            event.setSchedulingUrl(eventNode.path("scheduling_url").asText());
+            eventList.add(event);
+        }
+
+        return eventList;
     }
 }
 

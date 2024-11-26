@@ -3,6 +3,7 @@ package org.vetti.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.vetti.model.dto.GetEventsDTO;
 import org.vetti.model.dto.GetUsersEventsDTO;
 import org.vetti.model.dto.GetAppointmentsDTO;
 import org.vetti.service.CalendlyService;
@@ -31,5 +32,10 @@ public class CalendlyController {
     public List<GetAppointmentsDTO> getVetAppointments(@PathVariable String email, @RequestParam (defaultValue = "active") String status) {
         utils.validateStatus(status);
         return calendlyService.getVetsAppointmentsByEmail(email, status);
+    }
+
+    @GetMapping("/vet/events")
+    public List<GetEventsDTO> getEvents(){
+        return calendlyService.getEventsList();
     }
 }
