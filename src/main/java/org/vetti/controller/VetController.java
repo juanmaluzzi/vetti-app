@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vetti.model.dto.UpdateVetDTO;
+import org.vetti.model.request.ScheduleRequest;
 import org.vetti.model.request.UserRequest;
 import org.vetti.model.request.VetRequest;
 import org.vetti.model.response.LoginResponse;
+import org.vetti.service.EmailService;
 import org.vetti.service.VetService;
 
+import javax.mail.MessagingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +22,12 @@ public class VetController {
 
     @Autowired
     public VetService vetService;
+
+    private final EmailService emailService;
+
+    public VetController(EmailService emailService) {
+        this.emailService = emailService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<UserRequest> registerVet(@RequestBody VetRequest vetRequest) {
@@ -56,5 +65,11 @@ public class VetController {
     @GetMapping("/searchVetById/{id}")
     public ResponseEntity<?> getVetById(@PathVariable Long id){
         return vetService.getVetById(id);
+    }
+
+    @PostMapping("/schedules")
+    public ResponseEntity<String> sendScheduleEmail(@RequestBody ScheduleRequest scheduleRequest) throws MessagingException {
+        emailService.sendScheduleEmail(scheduleRequest);
+        return ResponseEntity.ok("Email enviado correctamente");
     }
 }
