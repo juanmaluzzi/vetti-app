@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vetti.exceptions.NotFoundException;
-import org.vetti.model.Pet;
-import org.vetti.model.User;
+import org.vetti.model.request.PetRequest;
+import org.vetti.model.request.UserRequest;
 import org.vetti.repository.PetRepository;
 import org.vetti.repository.UserRepository;
 import org.vetti.service.PetService;
@@ -29,39 +29,39 @@ public class PetController {
     private PetService petService;
 
     @GetMapping
-    public List<Pet> getAllPets() {
+    public List<PetRequest> getAllPets() {
         return petRepository.findAll();
     }
 
     @PostMapping("/addPet/{userId}")
-    public ResponseEntity<Pet> createPet(@PathVariable Long userId, @RequestBody Pet pet) {
+    public ResponseEntity<PetRequest> createPet(@PathVariable Long userId, @RequestBody PetRequest petRequest) {
 
-        User user = userRepository.findUserById(userId)
+        UserRequest userRequest = userRepository.findUserById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found with ID: " + userId));
 
-        pet.setUser(user);
+        petRequest.setUserRequest(userRequest);
 
-        Pet newPet = petRepository.save(pet);
+        PetRequest newPetRequest = petRepository.save(petRequest);
 
-        return ResponseEntity.ok(newPet);
+        return ResponseEntity.ok(newPetRequest);
     }
 
     @PatchMapping("/updatePet/{id}")
-    public ResponseEntity<?> updatePet(@PathVariable Long id, @RequestBody Pet newPetDetails){
+    public ResponseEntity<?> updatePet(@PathVariable Long id, @RequestBody PetRequest newPetRequestDetails){
 
-        Pet updatePet = petService.updatePet(id, newPetDetails);
+        PetRequest updatePetRequest = petService.updatePet(id, newPetRequestDetails);
 
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("message", "Pet updated successfully");
-        responseBody.put("petId: ", updatePet.getId());
+        responseBody.put("petId: ", updatePetRequest.getId());
 
         return ResponseEntity.status(200).body(responseBody);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Pet> getPetById(@PathVariable Long id) {
-        Pet pet = petService.getPetsById(id);
-        return ResponseEntity.ok(pet);
+    public ResponseEntity<PetRequest> getPetById(@PathVariable Long id) {
+        PetRequest petRequest = petService.getPetsById(id);
+        return ResponseEntity.ok(petRequest);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -3,9 +3,7 @@ package org.vetti.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vetti.exceptions.NotFoundException;
-import org.vetti.model.Pet;
-import org.vetti.model.User;
-import org.vetti.model.dto.UpdateUserDTO;
+import org.vetti.model.request.PetRequest;
 import org.vetti.repository.PetRepository;
 import org.vetti.utils.Utils;
 
@@ -25,33 +23,33 @@ public class PetService {
         this.utils = utils;
     }
 
-    public Pet updatePet(Long id, Pet newPetDetails){
+    public PetRequest updatePet(Long id, PetRequest newPetRequestDetails){
 
-        Pet existingPet = petRepository.findPetById(id)
+        PetRequest existingPetRequest = petRepository.findPetById(id)
                 .orElseThrow(() -> new NotFoundException("Pet not found with id: " + id));
 
-        if (newPetDetails.getName() != null) {
-            utils.validateString(newPetDetails.getName(), INVALID_STRING);
-            existingPet.setName(newPetDetails.getName());
+        if (newPetRequestDetails.getName() != null) {
+            utils.validateString(newPetRequestDetails.getName(), INVALID_STRING);
+            existingPetRequest.setName(newPetRequestDetails.getName());
         }
 
-        if (newPetDetails.getType() != null) {
-            utils.validateString(newPetDetails.getType(), INVALID_STRING);
-            existingPet.setType(newPetDetails.getType());
+        if (newPetRequestDetails.getType() != null) {
+            utils.validateString(newPetRequestDetails.getType(), INVALID_STRING);
+            existingPetRequest.setType(newPetRequestDetails.getType());
         }
 
-        return petRepository.save(existingPet);
+        return petRepository.save(existingPetRequest);
     }
 
-    public Pet getPetsById(Long id){
+    public PetRequest getPetsById(Long id){
         return petRepository.findPetById(id)
                 .orElseThrow(() -> new NotFoundException("Pet not found with ID: " + id));
     }
 
     public void deletePetById(Long id) {
-        Pet pet = petRepository.findById(id)
+        PetRequest petRequest = petRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pet not found with ID: " + id));
 
-        petRepository.delete(pet);
+        petRepository.delete(petRequest);
     }
 }

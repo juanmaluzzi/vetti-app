@@ -1,4 +1,4 @@
-package org.vetti.model;
+package org.vetti.model.request;
 
 import lombok.*;
 
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @ToString
-public class Vet {
+public class VetRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

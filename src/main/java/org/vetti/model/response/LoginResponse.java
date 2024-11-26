@@ -1,4 +1,4 @@
-package org.vetti.response;
+package org.vetti.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

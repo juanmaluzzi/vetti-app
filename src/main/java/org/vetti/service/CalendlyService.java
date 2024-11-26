@@ -13,7 +13,7 @@ import org.vetti.model.dto.GetEventsDTO;
 import org.vetti.model.dto.GetUsersEventsDTO;
 import org.vetti.model.dto.GetAppointmentsInvitesDTO;
 import org.vetti.model.dto.GetAppointmentsDTO;
-import org.vetti.response.SearchVetResponse;
+import org.vetti.model.response.SearchVetResponse;
 
 import java.util.ArrayList;
 import java.util.List;

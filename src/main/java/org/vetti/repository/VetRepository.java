@@ -2,17 +2,17 @@ package org.vetti.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.vetti.model.Vet;
+import org.vetti.model.request.VetRequest;
 
 import java.util.Optional;
 
 @Repository
-public interface VetRepository extends JpaRepository<Vet, Long> {
+public interface VetRepository extends JpaRepository<VetRequest, Long> {
 
-    Optional<Vet> findVetByEmail(String email);
+    Optional<VetRequest> findVetByEmail(String email);
 
-    Optional<Vet> findVetById(Long id);
+    Optional<VetRequest> findVetById(Long id);
 
-    Optional<Vet> findVetByCuit(String cuil);
+    Optional<VetRequest> findVetByCuit(String cuil);
 
 }

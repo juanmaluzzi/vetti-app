@@ -1,4 +1,4 @@
-package org.vetti.model;
+package org.vetti.model.request;
 
 import lombok.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public class User {
+public class UserRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,11 +48,11 @@ public class User {
     private String district;
 
     @Column
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Pet> pets = new ArrayList<>();
+    @OneToMany(mappedBy = "userRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<PetRequest> petRequests = new ArrayList<>();
 
-    public void setPets(List<Pet> pets) {
-        this.pets = pets != null ? pets : new ArrayList<>();
-        this.pets.forEach(pet -> pet.setUser(this));
+    public void setPetRequests(List<PetRequest> petRequests) {
+        this.petRequests = petRequests != null ? petRequests : new ArrayList<>();
+        this.petRequests.forEach(pet -> pet.setUserRequest(this));
     }
 }

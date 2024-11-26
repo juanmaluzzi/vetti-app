@@ -1,4 +1,4 @@
-package org.vetti.model;
+package org.vetti.model.request;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Pet {
+public class PetRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +27,5 @@ public class Pet {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserRequest userRequest;
 }

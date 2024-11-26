@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vetti.model.dto.UpdateVetDTO;
-import org.vetti.model.User;
-import org.vetti.model.Vet;
-import org.vetti.response.LoginResponse;
+import org.vetti.model.request.UserRequest;
+import org.vetti.model.request.VetRequest;
+import org.vetti.model.response.LoginResponse;
 import org.vetti.service.VetService;
 
 import java.util.HashMap;
@@ -21,14 +21,14 @@ public class VetController {
     public VetService vetService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerVet(@RequestBody Vet vet) {
-        Vet registeredvet = vetService.vetRegister(vet);
+    public ResponseEntity<UserRequest> registerVet(@RequestBody VetRequest vetRequest) {
+        VetRequest registeredvet = vetService.vetRegister(vetRequest);
         return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginVet(@RequestBody Vet loginVet) {
-        return vetService.loginVet(loginVet.getEmail(), loginVet.getPassword());
+    public ResponseEntity<LoginResponse> loginVet(@RequestBody VetRequest loginVetRequest) {
+        return vetService.loginVet(loginVetRequest.getEmail(), loginVetRequest.getPassword());
     }
 
     @PatchMapping("/updateVet/{id}")

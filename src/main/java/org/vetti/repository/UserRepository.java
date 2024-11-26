@@ -2,16 +2,16 @@ package org.vetti.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.vetti.model.User;
+import org.vetti.model.request.UserRequest;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserRequest, Long> {
 
-    Optional<User> findUserByEmail(String email);
+    Optional<UserRequest> findUserByEmail(String email);
 
-    Optional<User> findUserById(Long id);
+    Optional<UserRequest> findUserById(Long id);
 
-    Optional<User> findUserByDni(String dni);
+    Optional<UserRequest> findUserByDni(String dni);
 }

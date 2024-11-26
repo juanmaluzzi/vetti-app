@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vetti.model.dto.UpdateUserDTO;
-import org.vetti.model.User;
-import org.vetti.response.LoginResponse;
+import org.vetti.model.request.UserRequest;
+import org.vetti.model.response.LoginResponse;
 import org.vetti.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,15 +28,15 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        User registeredUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+    public ResponseEntity<?> registerUser(@RequestBody UserRequest userRequest) {
+        UserRequest registeredUserRequest = userService.registerUser(userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUserRequest);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(@RequestBody User loginUser) {
-        logger.info(String.valueOf(loginUser.getEmail()));
-        return userService.loginUser(loginUser.getEmail(), loginUser.getPassword());
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody UserRequest loginUserRequest) {
+        logger.info(String.valueOf(loginUserRequest.getEmail()));
+        return userService.loginUser(loginUserRequest.getEmail(), loginUserRequest.getPassword());
     }
 
     @PatchMapping("/updateUser/{id}")
