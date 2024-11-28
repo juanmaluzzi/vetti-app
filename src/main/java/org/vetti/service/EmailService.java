@@ -5,6 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.vetti.model.request.ScheduleRequest;
+import org.vetti.model.request.VetRequest;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -27,13 +28,13 @@ public class EmailService {
 
         helper.setTo(emailTo);
         helper.setSubject("BACKOFFICE - Nuevo horario recibido para " + scheduleRequest.getVetName());
-        helper.setText(buildEmailBody(scheduleRequest), true);
+        helper.setText(buildScheduleEmailBody(scheduleRequest), true);
 
         mailSender.send(message);
         System.out.println("Correo enviado a " + emailTo);
     }
 
-    private String buildEmailBody(ScheduleRequest scheduleRequest) {
+    private String buildScheduleEmailBody(ScheduleRequest scheduleRequest) {
         StringBuilder body = new StringBuilder();
 
         body.append("<h2>Detalles de la Veterinaria:</h2>");
@@ -50,6 +51,31 @@ public class EmailService {
             });
             body.append("</ul>");
         });
+
+        return body.toString();
+    }
+
+    public void sendRegisteredVet(VetRequest vetRequest) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(emailTo);
+        helper.setSubject("REGISTRO - Nueva veterinaria registrada: " + vetRequest.getName());
+        helper.setText(buildRegisteredVetEmailBody(vetRequest), true);
+
+        mailSender.send(message);
+        System.out.println("Correo enviado a " + emailTo);
+    }
+
+    private String buildRegisteredVetEmailBody(VetRequest vetRequest) {
+        StringBuilder body = new StringBuilder();
+
+        body.append("<h2>Detalles de la Veterinaria:</h2>");
+        body.append("<p><strong>Nombre:</strong> ").append(vetRequest.getName()).append("</p>");
+        body.append("<p><strong>Email:</strong> ").append(vetRequest.getEmail()).append("</p>");
+        body.append("<p><strong>Dirección:</strong> ").append(vetRequest.getAddress()).append("</p>");
+        body.append("<p><strong>Localidad:</strong> ").append(vetRequest.getDistrict()).append("</p>");
+        body.append("<p><strong>Telefono:</strong> ").append(vetRequest.getPhoneNumber()).append("</p>");
 
         return body.toString();
     }

@@ -24,6 +24,9 @@ public class PetRequest {
     @Column(nullable = false)
     private String type;
 
+    @Column
+    private String birthday;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

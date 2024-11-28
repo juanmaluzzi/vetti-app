@@ -30,8 +30,9 @@ public class VetController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserRequest> registerVet(@RequestBody VetRequest vetRequest) {
-        VetRequest registeredvet = vetService.vetRegister(vetRequest);
+    public ResponseEntity<UserRequest> registerVet(@RequestBody VetRequest vetRequest) throws MessagingException {
+        vetService.vetRegister(vetRequest);
+        emailService.sendRegisteredVet(vetRequest);
         return ResponseEntity.status(201).build();
     }
 

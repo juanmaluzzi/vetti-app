@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vetti.model.dto.UpdateUserDTO;
 import org.vetti.model.request.UserRequest;
-import org.vetti.model.response.LoginResponse;
+import org.vetti.model.response.LoginUserResponse;
 import org.vetti.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(@RequestBody UserRequest loginUserRequest) {
+    public ResponseEntity<LoginUserResponse> loginUser(@RequestBody UserRequest loginUserRequest) {
         logger.info(String.valueOf(loginUserRequest.getEmail()));
         return userService.loginUser(loginUserRequest.getEmail(), loginUserRequest.getPassword());
     }

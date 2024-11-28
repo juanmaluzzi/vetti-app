@@ -38,6 +38,10 @@ public class PetService {
             existingPetRequest.setType(newPetRequestDetails.getType());
         }
 
+        if (newPetRequestDetails.getBirthday() != null) {
+            existingPetRequest.setType(newPetRequestDetails.getBirthday());
+        }
+
         return petRepository.save(existingPetRequest);
     }
 

@@ -70,7 +70,7 @@ public class VetService {
         VetRequest vetRequest = vetRepository.findVetByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Vet not found with email: " + email));
 
-        SearchVetResponse response = new SearchVetResponse(vetRequest.getId(), HttpStatus.OK.value(),"Success", vetRequest.getEmail(), vetRequest.getName(), vetRequest.getAddress(), vetRequest.getPhoneNumber(), vetRequest.getCuit(), vetRequest.getRole(), vetRequest.getStatus(), vetRequest.getIsEmergencyVet(), vetRequest.getCalendlyEmail(), vetRequest.getCalendlyCalendar());
+        SearchVetResponse response = new SearchVetResponse(vetRequest.getId(), HttpStatus.OK.value(),"Success", vetRequest.getEmail(), vetRequest.getName(), vetRequest.getAddress(), vetRequest.getDistrict(), vetRequest.getPhoneNumber(), vetRequest.getCuit(), vetRequest.getRole(), vetRequest.getStatus(), vetRequest.getIsEmergencyVet(), vetRequest.getCalendlyEmail(), vetRequest.getCalendlyCalendar());
 
          return ResponseEntity.ok(response);
     }
@@ -88,7 +88,7 @@ public class VetService {
         VetRequest vetRequest = vetRepository.findVetById(id)
                 .orElseThrow(() -> new NotFoundException("Vet not found with id: " + id));
 
-        SearchVetResponse response = new SearchVetResponse(vetRequest.getId(), HttpStatus.OK.value(),"Success", vetRequest.getEmail(), vetRequest.getName(), vetRequest.getAddress(), vetRequest.getPhoneNumber(), vetRequest.getCuit(), vetRequest.getRole(), vetRequest.getStatus(), vetRequest.getIsEmergencyVet(), vetRequest.getCalendlyEmail(), vetRequest.getCalendlyCalendar());
+        SearchVetResponse response = new SearchVetResponse(vetRequest.getId(), HttpStatus.OK.value(),"Success", vetRequest.getEmail(), vetRequest.getName(), vetRequest.getAddress(), vetRequest.getDistrict(), vetRequest.getPhoneNumber(), vetRequest.getCuit(), vetRequest.getRole(), vetRequest.getStatus(), vetRequest.getIsEmergencyVet(), vetRequest.getCalendlyEmail(), vetRequest.getCalendlyCalendar());
 
         return ResponseEntity.ok(response);
     }
@@ -109,6 +109,7 @@ public class VetService {
                         vetRequest.getEmail(),
                         vetRequest.getName(),
                         vetRequest.getAddress(),
+                        vetRequest.getDistrict(),
                         vetRequest.getPhoneNumber(),
                         vetRequest.getCuit(),
                         vetRequest.getRole(),

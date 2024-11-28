@@ -39,6 +39,9 @@ public class VetRequest {
     private String role;
 
     @Column
+    private String district;
+
+    @Column
     private String status = "disabled";
 
     @Column(name = "calendly_token", nullable = true)

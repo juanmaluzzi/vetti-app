@@ -12,6 +12,7 @@ import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.dto.PetDTO;
 import org.vetti.model.dto.UpdateUserDTO;
 import org.vetti.model.request.UserRequest;
+import org.vetti.model.response.LoginUserResponse;
 import org.vetti.repository.UserRepository;
 import org.vetti.model.response.LoginResponse;
 import org.vetti.model.response.SearchUserResponse;
@@ -58,16 +59,16 @@ public class UserService {
         return userRepository.save(userRequest);
     }
 
-    public ResponseEntity<LoginResponse> loginUser(String email, String password) {
+    public ResponseEntity<LoginUserResponse> loginUser(String email, String password) {
             UserRequest userRequest = userRepository.findUserByEmail(email.toLowerCase())
                     .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
 
             if (passwordEncoder.matches(password, userRequest.getPassword())) {
                 String role = userRequest.getRole();
-                LoginResponse response = new LoginResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, userRequest.getId());
+                LoginUserResponse response = new LoginUserResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, userRequest.getId());
                 return ResponseEntity.ok(response);
             } else {
-                LoginResponse response = new LoginResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());
+                LoginUserResponse response = new LoginUserResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());
                 logger.info("Credenciales invalidas.");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
@@ -86,7 +87,7 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
 
         List<PetDTO> petDTOs = userRequest.getPetRequests().stream()
-                .map(pet -> new PetDTO(pet.getId(), pet.getName(), pet.getType()))
+                .map(pet -> new PetDTO(pet.getId(), pet.getName(), pet.getType(), pet.getBirthday()))
                 .collect(Collectors.toList());
 
         SearchUserResponse response = new SearchUserResponse(userRequest.getId(), HttpStatus.OK.value(), "Success", userRequest.getEmail(), userRequest.getName(), userRequest.getLastName(), userRequest.getPhoneNumber(), userRequest.getRole(), userRequest.getDni(), userRequest.getAddress(), userRequest.getDistrict(), petDTOs);
@@ -100,7 +101,7 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
 
         List<PetDTO> petDTOs = userRequest.getPetRequests().stream()
-                .map(pet -> new PetDTO(pet.getId(), pet.getName(), pet.getType()))
+                .map(pet -> new PetDTO(pet.getId(), pet.getName(), pet.getType(), pet.getBirthday()))
                 .collect(Collectors.toList());
 
         SearchUserResponse response = new SearchUserResponse(userRequest.getId(), HttpStatus.OK.value(), "Success", userRequest.getEmail(), userRequest.getName(), userRequest.getLastName(), userRequest.getPhoneNumber(), userRequest.getRole(), userRequest.getDni(), userRequest.getAddress(), userRequest.getDistrict(), petDTOs);

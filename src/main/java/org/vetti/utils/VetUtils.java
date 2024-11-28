@@ -57,8 +57,14 @@ public class VetUtils {
 
         String address = newVetDetails.getAddress();
         if (address != null && !address.trim().isEmpty()) {
-            validateAddress(address, INVALID_STRING);
+            validateAddress(address, INVALID_ADDRESS);
             existingVetRequest.setAddress(address);
+        }
+
+        String district = newVetDetails.getDistrict();
+        if (district != null && !district.trim().isEmpty()) {
+            validateAddress(district, INVALID_DISTRICT);
+            existingVetRequest.setDistrict(district);
         }
 
         String cuit = newVetDetails.getCuit();

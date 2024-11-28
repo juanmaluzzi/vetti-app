@@ -21,6 +21,7 @@ public class Utils {
     public static final String INVALID_EMERGENCY_VET = "Emergency vet field is invalid";
     public static final String INVALID_STATUS = "Status field is invalid or empty";
     public static final String INVALID_STATUSFIELD = "Status is invalid.";
+    public static final String INVALID_BIRTHDAY = "Birthday or invalid";
 
     public void validateString(String value, String errorMessage) {
         if (value == null || value.trim().isEmpty() || !value.matches("^[a-zA-Z\\s]+$")) throw new BadRequestException(errorMessage + " Received value: " +  value);

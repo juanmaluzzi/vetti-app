@@ -19,4 +19,5 @@ public class UpdateVetDTO {
     private Boolean isEmergencyVet;
     private String calendlyEmail;
     private String calendlyCalendar;
+    private String district;
 }
