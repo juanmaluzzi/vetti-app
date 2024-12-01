@@ -9,7 +9,7 @@ import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.dto.UpdateVetDTO;
 import org.vetti.model.request.VetRequest;
 import org.vetti.repository.VetRepository;
-import org.vetti.model.response.LoginResponse;
+import org.vetti.model.response.LoginVetResponse;
 import org.vetti.model.response.SearchVetResponse;
 import org.vetti.utils.VetUtils;
 
@@ -35,7 +35,7 @@ public class VetService {
         this.vetUtils = vetUtils;
     }
 
-    public VetRequest vetRegister(VetRequest vetRequest){
+    public void vetRegister(VetRequest vetRequest){
         vetUtils.validateVetRegister(vetRequest);
         vetRequest.setPassword(passwordEncoder.encode(vetRequest.getPassword()));
 
@@ -43,20 +43,20 @@ public class VetService {
             vetRequest.setEmail(vetRequest.getEmail().toLowerCase());
         }
 
-        return vetRepository.save(vetRequest);
+        vetRepository.save(vetRequest);
     }
 
-    public ResponseEntity<LoginResponse> loginVet(String email, String password) {
+    public ResponseEntity<LoginVetResponse> loginVet(String email, String password) {
 
         VetRequest vetRequest = vetRepository.findVetByEmail(email.toLowerCase())
                 .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
 
         if (passwordEncoder.matches(password, vetRequest.getPassword())) {
             String role = vetRequest.getRole();
-            LoginResponse response = new LoginResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, vetRequest.getId(), vetRequest.getStatus());
+            LoginVetResponse response = new LoginVetResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, vetRequest.getId(), vetRequest.getStatus(), vetRequest.getPayment());
             return ResponseEntity.ok(response);
         } else {
-            LoginResponse response = new LoginResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());
+            LoginVetResponse response = new LoginVetResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
@@ -70,17 +70,9 @@ public class VetService {
         VetRequest vetRequest = vetRepository.findVetByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Vet not found with email: " + email));
 
-        SearchVetResponse response = new SearchVetResponse(vetRequest.getId(), HttpStatus.OK.value(),"Success", vetRequest.getEmail(), vetRequest.getName(), vetRequest.getAddress(), vetRequest.getDistrict(), vetRequest.getPhoneNumber(), vetRequest.getCuit(), vetRequest.getRole(), vetRequest.getStatus(), vetRequest.getIsEmergencyVet(), vetRequest.getCalendlyEmail(), vetRequest.getCalendlyCalendar());
+        SearchVetResponse response = new SearchVetResponse(vetRequest.getId(), HttpStatus.OK.value(),"Success", vetRequest.getEmail(), vetRequest.getName(), vetRequest.getAddress(), vetRequest.getDistrict(), vetRequest.getPhoneNumber(), vetRequest.getCuit(), vetRequest.getRole(), vetRequest.getStatus(), vetRequest.getIsEmergencyVet(), vetRequest.getCalendlyEmail(), vetRequest.getCalendlyCalendar(), vetRequest.getPayment());
 
          return ResponseEntity.ok(response);
-    }
-
-    public VetRequest updateCalendlyToken(Long vetId, String calendlyToken) {
-        VetRequest vetRequest = vetRepository.findById(vetId)
-                .orElseThrow(() -> new NotFoundException("Vet not found with ID: " + vetId));
-
-        vetRequest.setCalendlyToken(calendlyToken);
-        return vetRepository.save(vetRequest);
     }
 
     public ResponseEntity<SearchVetResponse> getVetById(Long id){
@@ -88,7 +80,7 @@ public class VetService {
         VetRequest vetRequest = vetRepository.findVetById(id)
                 .orElseThrow(() -> new NotFoundException("Vet not found with id: " + id));
 
-        SearchVetResponse response = new SearchVetResponse(vetRequest.getId(), HttpStatus.OK.value(),"Success", vetRequest.getEmail(), vetRequest.getName(), vetRequest.getAddress(), vetRequest.getDistrict(), vetRequest.getPhoneNumber(), vetRequest.getCuit(), vetRequest.getRole(), vetRequest.getStatus(), vetRequest.getIsEmergencyVet(), vetRequest.getCalendlyEmail(), vetRequest.getCalendlyCalendar());
+        SearchVetResponse response = new SearchVetResponse(vetRequest.getId(), HttpStatus.OK.value(),"Success", vetRequest.getEmail(), vetRequest.getName(), vetRequest.getAddress(), vetRequest.getDistrict(), vetRequest.getPhoneNumber(), vetRequest.getCuit(), vetRequest.getRole(), vetRequest.getStatus(), vetRequest.getIsEmergencyVet(), vetRequest.getCalendlyEmail(), vetRequest.getCalendlyCalendar(), vetRequest.getPayment());
 
         return ResponseEntity.ok(response);
     }
@@ -116,7 +108,8 @@ public class VetService {
                         vetRequest.getStatus(),
                         vetRequest.getIsEmergencyVet(),
                         vetRequest.getCalendlyEmail(),
-                        vetRequest.getCalendlyCalendar()
+                        vetRequest.getCalendlyCalendar(),
+                        vetRequest.getPayment()
                 ))
                 .collect(Collectors.toList());
 

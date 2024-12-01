@@ -7,14 +7,15 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class LoginResponse {
+public class LoginVetResponse {
     private String message;
     private int statusCode;
     private String role;
     private Long id;
     private String status;
+    private String payment;
 
-    public LoginResponse(String message, int statusCode){
+    public LoginVetResponse(String message, int statusCode){
         this.message = message;
         this.statusCode = statusCode;
     }

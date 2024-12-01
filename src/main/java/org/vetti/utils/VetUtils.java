@@ -124,6 +124,11 @@ public class VetUtils {
             existingVetRequest.setCalendlyCalendar(calendlyCalendar);
         }
 
+        String payment = newVetDetails.getPayment();
+        if(payment != null){
+            existingVetRequest.setPayment(payment);
+        }
+
         VetRequest updatedVetRequest = vetRepository.save(existingVetRequest);
 
         return convertToUpdateVetDTO(updatedVetRequest);
@@ -136,7 +141,12 @@ public class VetUtils {
         dto.setEmail(vetRequest.getEmail());
         dto.setPhoneNumber(vetRequest.getPhoneNumber());
         dto.setRole(vetRequest.getRole());
+        dto.setStatus(vetRequest.getStatus());
         dto.setIsEmergencyVet(vetRequest.getIsEmergencyVet());
+        dto.setDistrict(vetRequest.getDistrict());
+        dto.setCalendlyCalendar(vetRequest.getCalendlyCalendar());
+        dto.setCalendlyEmail(vetRequest.getCalendlyEmail());
+        dto.setPayment(vetRequest.getPayment());
 
         return dto;
     }

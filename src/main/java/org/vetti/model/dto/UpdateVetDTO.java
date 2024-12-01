@@ -20,4 +20,5 @@ public class UpdateVetDTO {
     private String calendlyEmail;
     private String calendlyCalendar;
     private String district;
+    private String payment;
 }

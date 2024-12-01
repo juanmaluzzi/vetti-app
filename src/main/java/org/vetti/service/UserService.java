@@ -14,7 +14,6 @@ import org.vetti.model.dto.UpdateUserDTO;
 import org.vetti.model.request.UserRequest;
 import org.vetti.model.response.LoginUserResponse;
 import org.vetti.repository.UserRepository;
-import org.vetti.model.response.LoginResponse;
 import org.vetti.model.response.SearchUserResponse;
 import org.vetti.utils.UserUtils;
 

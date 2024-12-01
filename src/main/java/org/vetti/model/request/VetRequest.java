@@ -36,7 +36,7 @@ public class VetRequest {
     private String phoneNumber;
 
     @Column(columnDefinition = "varchar(255) default '0'")
-    private String role;
+    private String role = "2";
 
     @Column
     private String district;
@@ -55,5 +55,8 @@ public class VetRequest {
 
     @Column(name = "calendly_calendar", columnDefinition = "varchar(255)")
     private String calendlyCalendar;
+
+    @Column
+    private String payment = "pending";
 
 }

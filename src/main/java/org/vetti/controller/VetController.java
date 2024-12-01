@@ -7,7 +7,7 @@ import org.vetti.model.dto.UpdateVetDTO;
 import org.vetti.model.request.ScheduleRequest;
 import org.vetti.model.request.UserRequest;
 import org.vetti.model.request.VetRequest;
-import org.vetti.model.response.LoginResponse;
+import org.vetti.model.response.LoginVetResponse;
 import org.vetti.service.EmailService;
 import org.vetti.service.VetService;
 
@@ -37,7 +37,7 @@ public class VetController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginVet(@RequestBody VetRequest loginVetRequest) {
+    public ResponseEntity<LoginVetResponse> loginVet(@RequestBody VetRequest loginVetRequest) {
         return vetService.loginVet(loginVetRequest.getEmail(), loginVetRequest.getPassword());
     }
 

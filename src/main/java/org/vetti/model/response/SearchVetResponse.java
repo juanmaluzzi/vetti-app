@@ -25,6 +25,7 @@ public class SearchVetResponse {
     private Boolean isEmergencyVet;
     private String calendlyEmail;
     private String calendlyCalendar;
+    private String payment;
 
 
     public SearchVetResponse(String message, int statusCode){
