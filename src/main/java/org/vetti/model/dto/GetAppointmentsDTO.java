@@ -20,5 +20,6 @@ public class GetAppointmentsDTO {
     private String eventName;
     private String status;
     private String location;
+    private String eventId;
     private List<GetAppointmentsInvitesDTO> invitees;
 }

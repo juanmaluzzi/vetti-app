@@ -18,4 +18,5 @@ public class GetUsersEventsDTO {
     private String eventName;
     private String status;
     private String location;
+    private String eventId;
 }

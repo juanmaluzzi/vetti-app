@@ -13,4 +13,5 @@ public class GetEventsDTO {
 
     private String eventName;
     private String schedulingUrl;
+    private String vetName;
 }
