@@ -12,6 +12,7 @@ public class LoginUserResponse {
     private int statusCode;
     private String role;
     private Long id;
+    private String email;
 
     public LoginUserResponse(String message, int statusCode){
         this.message = message;

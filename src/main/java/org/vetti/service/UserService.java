@@ -64,7 +64,7 @@ public class UserService {
 
             if (passwordEncoder.matches(password, userRequest.getPassword())) {
                 String role = userRequest.getRole();
-                LoginUserResponse response = new LoginUserResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, userRequest.getId());
+                LoginUserResponse response = new LoginUserResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, userRequest.getId(), userRequest.getEmail());
                 return ResponseEntity.ok(response);
             } else {
                 LoginUserResponse response = new LoginUserResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());
