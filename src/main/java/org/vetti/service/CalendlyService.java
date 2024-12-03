@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.vetti.model.dto.GetEventsDTO;
-import org.vetti.model.dto.GetUsersEventsDTO;
-import org.vetti.model.dto.GetAppointmentsInvitesDTO;
-import org.vetti.model.dto.GetAppointmentsDTO;
-import org.vetti.model.dto.CancelCalendlyScheduleDTO;
+import org.vetti.exceptions.BadRequestException;
+import org.vetti.exceptions.NotFoundException;
+import org.vetti.model.dto.*;
+import org.vetti.model.request.VetRequest;
 import org.vetti.model.response.SearchVetResponse;
+import org.vetti.repository.VetRepository;
 
+import javax.mail.MessagingException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,9 +39,15 @@ public class CalendlyService {
 
     private final RestTemplate restTemplate;
 
-    public CalendlyService(RestTemplate restTemplate, VetService vetService) {
+    private final VetRepository vetRepository;
+
+    private final EmailService emailService;
+
+    public CalendlyService(RestTemplate restTemplate, VetService vetService, VetRepository vetRepository, EmailService emailService) {
         this.restTemplate = restTemplate;
         this.vetService = vetService;
+        this.vetRepository = vetRepository;
+        this.emailService = emailService;
     }
 
     public List<GetUsersEventsDTO> getMappedEventsByEmail(String email, String status, Boolean expired) {
@@ -188,7 +195,7 @@ public class CalendlyService {
                 invitees.add(invitee);
             }
 
-            // Crear el DTO del evento con los datos filtrados
+            // Creo el DTO del evento con los datos filtrados
             GetAppointmentsDTO eventWithInvitees = new GetAppointmentsDTO();
             eventWithInvitees.setCreatedAt(events.path("created_at").asText());
             eventWithInvitees.setEndTime(events.path("end_time").asText());
@@ -267,27 +274,63 @@ public class CalendlyService {
         HttpEntity<CancelCalendlyScheduleDTO> entity = new HttpEntity<>(requestBody, headers);
 
         try {
-            // Realizar la solicitud a Calendly y devolver la respuesta como JsonNode
             ResponseEntity<JsonNode> response = restTemplate.exchange(url, HttpMethod.POST, entity, JsonNode.class);
             return response.getBody();
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
-            // Si hay un error HTTP (4xx o 5xx), captura la respuesta del error
             JsonNode errorBody;
             try {
-                // Parsear el cuerpo de la respuesta de error
                 ObjectMapper objectMapper = new ObjectMapper();
                 errorBody = objectMapper.readTree(ex.getResponseBodyAsString());
             } catch (Exception parseEx) {
-                // Si no se puede parsear, devolver un mensaje genérico
                 throw new RuntimeException("Error calling Calendly: " + ex.getMessage());
             }
-            return errorBody; // Devuelve el JSON con la respuesta de error de Calendly
+            return errorBody;
         } catch (Exception ex) {
-            // Manejo de errores genéricos
             throw new RuntimeException("Unexpected error occurred: " + ex.getMessage());
         }
     }
 
+    public List<GetEventsDTO> getEventsList(Long id) {
+
+        String vetName = vetRepository.findById(id)
+                .map(VetRequest::getName)
+                .orElseThrow(() -> new NotFoundException("No se encontró una veterinaria con el ID proporcionado."));
+
+        String url = String.format(
+                "https://api.calendly.com/event_types?organization=https://api.calendly.com/organizations/%s",
+                organizationUuid
+        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + calendlyApiToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<JsonNode> response = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
+
+        JsonNode events = response.getBody().path("collection");
+
+        List<GetEventsDTO> eventList = new ArrayList<>();
+        for (JsonNode eventNode : events) {
+            String eventVetName = eventNode.path("profile").path("name").asText();
+            if (eventVetName.equalsIgnoreCase(vetName)) {
+                GetEventsDTO event = new GetEventsDTO();
+                event.setEventName(eventNode.path("name").asText());
+                event.setSchedulingUrl(eventNode.path("scheduling_url").asText());
+                event.setVetName(eventVetName);
+                eventList.add(event);
+            }
+        }
+
+        return eventList;
+    }
+
+    public String cancelCalendlyEventTypes(Long id){
+
+        return vetRepository.findById(id)
+                .map(VetRequest::getName)
+                .orElseThrow(() -> new NotFoundException("No se encontró una veterinaria con el ID proporcionado."));
+    }
 
 }
 

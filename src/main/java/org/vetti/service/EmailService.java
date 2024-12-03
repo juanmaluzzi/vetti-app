@@ -99,4 +99,27 @@ public class EmailService {
 
         System.out.println("Correo enviado a: " + email);
     }
+
+    public void sendCancelEventsVet(String name, String eventName) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(emailTo);
+        helper.setSubject("BACKOFFICE - Cancelación de eventos");
+        helper.setText(cancelCalendlyEventTypesBody(name, eventName), true);
+
+        mailSender.send(message);
+        System.out.println("Correo enviado a " + emailTo);
+    }
+
+    public String cancelCalendlyEventTypesBody(String name, String eventName) {
+        StringBuilder body = new StringBuilder();
+
+        body.append("<h2>BACKOFFICE - Cancelación de eventos:</h2>");
+        body.append("<p><strong>Veterinaria:</strong> ").append(name).append("</p>");
+        body.append("<p><strong>Evento a cancelar:</strong> ").append(eventName).append("</p>");
+
+
+        return body.toString();
+    }
 }
