@@ -45,9 +45,6 @@ public class VetRequest {
     @Column
     private String status = "disabled";
 
-    @Column(name = "calendly_token", nullable = true)
-    private String calendlyToken;
-
     @Column(name = "is_emergency_vet", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isEmergencyVet = false;
 
