@@ -1,6 +1,7 @@
 package org.vetti.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -78,5 +79,24 @@ public class EmailService {
         body.append("<p><strong>Telefono:</strong> ").append(vetRequest.getPhoneNumber()).append("</p>");
 
         return body.toString();
+    }
+
+    public void sendPasswordResetEmail(String email, String resetCode) {
+        String subject = "Recuperación de Contraseña";
+        String body = String.format(
+                "Hola,\n\nHemos recibido una solicitud para restablecer tu contraseña. " +
+                        "Usa el siguiente código para continuar:\n\n%s\n\nEste código es válido por 15 minutos.\n\n" +
+                        "Si no solicitaste este cambio, puedes ignorar este mensaje.",
+                resetCode
+        );
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(body);
+
+        mailSender.send(message);
+
+        System.out.println("Correo enviado a: " + email);
     }
 }

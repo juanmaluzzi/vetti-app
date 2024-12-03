@@ -3,6 +3,7 @@ package org.vetti.model.request;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,12 @@ public class UserRequest {
     @Column
     @OneToMany(mappedBy = "userRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<PetRequest> petRequests = new ArrayList<>();
+
+    @Column(name = "password_reset_code", length = 6)
+    private String passwordResetCode;
+
+    @Column(name = "password_reset_expiry")
+    private LocalDateTime passwordResetExpiry;
 
     public void setPetRequests(List<PetRequest> petRequests) {
         this.petRequests = petRequests != null ? petRequests : new ArrayList<>();

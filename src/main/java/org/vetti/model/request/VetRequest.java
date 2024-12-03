@@ -3,6 +3,7 @@ package org.vetti.model.request;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vets")
@@ -58,5 +59,11 @@ public class VetRequest {
 
     @Column
     private String payment = "pending";
+
+    @Column(name = "password_reset_code", length = 6)
+    private String passwordResetCode;
+
+    @Column(name = "password_reset_expiry")
+    private LocalDateTime passwordResetExpiry;
 
 }
