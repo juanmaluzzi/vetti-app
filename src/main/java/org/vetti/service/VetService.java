@@ -87,7 +87,7 @@ public class VetService {
 
     public ResponseEntity<List<SearchVetResponse>> getAllVets(){
 
-        List<VetRequest> vetRequests = vetRepository.findAll();
+        List<VetRequest> vetRequests = vetRepository.findByStatus("enabled");
 
         if (vetRequests.isEmpty()) {
             throw new NotFoundException("No se encontraron veterinarias.");

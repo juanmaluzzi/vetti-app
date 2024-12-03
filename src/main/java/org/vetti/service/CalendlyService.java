@@ -98,6 +98,10 @@ public class CalendlyService {
     public List<GetAppointmentsDTO> getVetsAppointmentsByEmail(String email, String status, Boolean expired) {
         String calendlyEmail = getCalendlyEmail(email);
 
+        if (calendlyEmail == null) {
+            throw new IllegalArgumentException("No se encontró un email de Calendlyy para el usuario con email: " + email);
+        }
+
         String urlMemberships = String.format(
                 "https://api.calendly.com/organization_memberships?organization=https://api.calendly.com/organizations/%s",
                 organizationUuid
@@ -204,13 +208,20 @@ public class CalendlyService {
         return eventInviteesList;
     }
 
-
-
     private String getCalendlyEmail(String email) {
         ResponseEntity<SearchVetResponse> response = vetService.getVetByEmail(email);
+
+        if (response == null || response.getBody() == null) {
+            return null;
+        }
+
         SearchVetResponse vetResponse = response.getBody();
-        String calendlyEmail = vetResponse.getCalendlyEmail();
-        return calendlyEmail;
+
+        if ("enabled".equalsIgnoreCase(vetResponse.getStatus())) {
+            return vetResponse.getCalendlyEmail();
+        }
+
+        return null;
     }
 
     public List<GetEventsDTO> getEventsList() {
