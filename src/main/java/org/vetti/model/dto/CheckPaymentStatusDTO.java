@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CheckPaymentStatusDTO {
 
-    private String paymentId;
+    private String preApprovalId;
 
     private Long vetId;
 }

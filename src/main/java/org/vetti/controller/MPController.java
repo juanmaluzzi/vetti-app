@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.vetti.model.dto.CheckPaymentStatusDTO;
 import org.vetti.service.MercadoPagoService;
 
-import javax.mail.MessagingException;
-
 @RestController
 @RequestMapping("/mercadopago")
 public class MPController {
@@ -33,7 +31,7 @@ public class MPController {
 
     @PostMapping("/processPaymentStatus")
     public ResponseEntity<Void> checkPaymentStatus(@RequestBody CheckPaymentStatusDTO checkPaymentStatusDTO) {
-        mercadoPagoService.processPaymentStatus(checkPaymentStatusDTO.getPaymentId(), checkPaymentStatusDTO.getVetId());
+        mercadoPagoService.processPaymentStatus(checkPaymentStatusDTO.getPreApprovalId(), checkPaymentStatusDTO.getVetId());
         return ResponseEntity.ok().build();
     }
 }
