@@ -1,15 +1,24 @@
 package org.vetti.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.vetti.utils.MPUtils;
+import org.vetti.model.dto.CheckPaymentStatusDTO;
+import org.vetti.service.MercadoPagoService;
+
+import javax.mail.MessagingException;
 
 @RestController
-@RequestMapping("/webhooks/mercadopago")
+@RequestMapping("/mercadopago")
 public class MPController {
 
-    private MPUtils mpUtils;
+    @Autowired
+    private final MercadoPagoService mercadoPagoService;
+
+    public MPController(MercadoPagoService mercadoPagoService) {
+        this.mercadoPagoService = mercadoPagoService;
+    }
 
     @PostMapping
     public ResponseEntity<String> handleWebhook(@RequestBody String payload) {
@@ -20,5 +29,11 @@ public class MPController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing webhook");
         }
+    }
+
+    @PostMapping("/processPaymentStatus")
+    public ResponseEntity<Void> checkPaymentStatus(@RequestBody CheckPaymentStatusDTO checkPaymentStatusDTO) {
+        mercadoPagoService.processPaymentStatus(checkPaymentStatusDTO.getPaymentId(), checkPaymentStatusDTO.getVetId());
+        return ResponseEntity.ok().build();
     }
 }

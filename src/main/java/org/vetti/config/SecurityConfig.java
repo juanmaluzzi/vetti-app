@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()  // CORS para web
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/*", "/vet/*", "/pets/*", "/api/*").authenticated()
+                .antMatchers("/user/*", "/vet/*", "/pets/*", "/api/*", "/mercadopago/*").authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

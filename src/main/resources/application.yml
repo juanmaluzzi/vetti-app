@@ -61,4 +61,7 @@ calendly:
 email:
   to: luzzijuanma@gmail.com
 
+mercadopago:
+  token: ${MERCADOPAGO_TOKEN}
+
 

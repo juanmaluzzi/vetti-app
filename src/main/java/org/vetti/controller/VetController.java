@@ -3,6 +3,7 @@ package org.vetti.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.vetti.model.dto.CheckPaymentStatusDTO;
 import org.vetti.model.dto.UpdateVetDTO;
 import org.vetti.model.request.ScheduleRequest;
 import org.vetti.model.request.UserRequest;
@@ -73,4 +74,5 @@ public class VetController {
         emailService.sendScheduleEmail(scheduleRequest);
         return ResponseEntity.ok("Email enviado correctamente");
     }
+
 }
