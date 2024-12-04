@@ -30,8 +30,8 @@ public class MercadoPagoService {
     }
 
 
-        public void processPaymentStatus(String paymentId, Long vetId) {
-        String apiUrl = "https://api.mercadopago.com/v1/payments/" + paymentId;
+        public void processPaymentStatus(String preApprovalId, Long vetId) {
+        String apiUrl = "https://api.mercadopago.com/v1/payments/" + preApprovalId;
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + mercadoPagoToken);
