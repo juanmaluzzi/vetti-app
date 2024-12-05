@@ -9,7 +9,9 @@ import org.vetti.model.dto.PasswordResetDTO;
 import org.vetti.model.dto.PasswordResetRequestDTO;
 import org.vetti.service.PasswordService;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/password")
@@ -22,7 +24,7 @@ public class PasswordController {
     }
 
     @PostMapping("/request/email")
-    public ResponseEntity<?> requestPasswordReset(@Valid @RequestBody PasswordResetRequestDTO request) {
+    public ResponseEntity<?> requestPasswordReset(@Valid @RequestBody PasswordResetRequestDTO request) throws MessagingException, IOException {
         passwordService.requestPasswordReset(request.getEmail());
         return ResponseEntity.ok("Se envió un código de recuperación al correo: " + request.getEmail());
     }

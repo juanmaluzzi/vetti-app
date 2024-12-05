@@ -13,6 +13,7 @@ import org.vetti.service.EmailService;
 import org.vetti.service.VetService;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class VetController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserRequest> registerVet(@RequestBody VetRequest vetRequest) throws MessagingException {
+    public ResponseEntity<UserRequest> registerVet(@RequestBody VetRequest vetRequest) throws MessagingException, IOException {
         vetService.vetRegister(vetRequest);
         emailService.sendRegisteredVet(vetRequest);
         return ResponseEntity.status(201).build();
@@ -70,7 +71,7 @@ public class VetController {
     }
 
     @PostMapping("/schedules")
-    public ResponseEntity<String> sendScheduleEmail(@RequestBody ScheduleRequest scheduleRequest) throws MessagingException {
+    public ResponseEntity<String> sendScheduleEmail(@RequestBody ScheduleRequest scheduleRequest) throws MessagingException, IOException {
         emailService.sendScheduleEmail(scheduleRequest);
         return ResponseEntity.ok("Email enviado correctamente");
     }

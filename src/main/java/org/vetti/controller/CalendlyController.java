@@ -15,6 +15,7 @@ import org.vetti.service.EmailService;
 import org.vetti.utils.Utils;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -68,7 +69,7 @@ public class CalendlyController {
     }
 
     @PostMapping("/vet/eventTypes/cancellation")
-    public ResponseEntity<?> cancelEventTypes(@RequestBody CancelCalendlyEventTypesDTO cancelRequest) throws MessagingException {
+    public ResponseEntity<?> cancelEventTypes(@RequestBody CancelCalendlyEventTypesDTO cancelRequest) throws MessagingException, IOException {
 
         String vetName = calendlyService.cancelCalendlyEventTypes(cancelRequest.getId());
 

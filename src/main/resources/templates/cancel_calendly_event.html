@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelación de Evento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #424242;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .header img {
+            display: block;
+            margin: 0 auto;
+            width: 120px;
+            height: auto;
+        }
+        .content {
+            color: #333333;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="cid:logoVetti" alt="Logo Vetti">
+    </div>
+    <div class="content">
+        <h2>BACKOFFICE - Cancelación de Eventos</h2>
+        <p>
+            Se ha solicitado la cancelación de un evento en el sistema. Aquí están los detalles:
+        </p>
+        <ul>
+            <li><strong>Veterinaria:</strong> {{vetName}}</li>
+            <li><strong>Evento a Cancelar:</strong> {{eventName}}</li>
+        </ul>
+        <p>
+            Por favor, verifica esta acción en el sistema de administración y toma las medidas necesarias.
+        </p>
+    </div>
+    <div class="footer">
+        <p>Vetti</p>
+    </div>
+</div>
+</body>
+</html>

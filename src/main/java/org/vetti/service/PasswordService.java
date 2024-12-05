@@ -8,6 +8,8 @@ import org.vetti.model.request.VetRequest;
 import org.vetti.repository.UserRepository;
 import org.vetti.repository.VetRepository;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,7 +28,7 @@ public class PasswordService {
         this.vetRepository = vetRepository;
     }
 
-    public void requestPasswordReset(String email) {
+    public void requestPasswordReset(String email) throws MessagingException, IOException {
         UserRequest user = userRepository.findUserByEmail(email).orElse(null);
 
         if (user != null) {
