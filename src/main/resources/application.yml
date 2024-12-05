@@ -59,7 +59,7 @@ calendly:
     uuid: 41b8ef68-cda3-497c-a534-aa634efe91eb
 
 email:
-  to: ${EMAIL_TO}
+  to: tesisfinaldavinci@gmail.com
 
 mercadopago:
   token: ${MERCADOPAGO_TOKEN}

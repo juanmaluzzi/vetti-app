@@ -108,9 +108,10 @@ public class MercadoPagoService {
                     emailService.sendPaymentConfirmationToVet(vetRequest.getName(), vetRequest.getEmail());
                     emailService.sendPaymentConfirmationToAdmin(vetRequest);
                 } catch (MessagingException e) {
+                    System.out.println("ERROR AL INTENTAR ENVIAR EL CORREO" + e);
                     throw new BadRequestException("Error al enviar el correo: " + e.getMessage(), e);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    throw new RuntimeException("ERROR al enviar el email",e);
                 }
             } else {
                 System.out.println("El pago no está aprobado. Estado: " + status);
