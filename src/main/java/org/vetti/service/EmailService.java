@@ -7,7 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.vetti.model.request.ScheduleRequest;
 import org.vetti.model.request.VetRequest;
-import org.vetti.templates.PaymentTemplate;
+import org.vetti.templates.LoadTemplate;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -35,7 +35,7 @@ public class EmailService {
         helper.setTo(emailTo);
         helper.setSubject("BACKOFFICE - Nuevo servicio recibido para " + scheduleRequest.getVetName());
 
-        PaymentTemplate templateLoader = new PaymentTemplate();
+        LoadTemplate templateLoader = new LoadTemplate();
         StringBuilder scheduleHtml = new StringBuilder();
 
         Set<String> processedDays = new HashSet<>();
@@ -59,7 +59,7 @@ public class EmailService {
                 "vetService", scheduleRequest.getService(),
                 "vetSchedule", scheduleHtml.toString()
         );
-        String emailBody = templateLoader.loadPaymentTemplate("schedule_received_notification.html", variables);
+        String emailBody = templateLoader.loadTemplate("schedule_received_notification.html", variables);
         helper.setText(emailBody, true);
 
         ClassPathResource logo = new ClassPathResource("static/vettilogo.png");
@@ -77,7 +77,7 @@ public class EmailService {
         helper.setTo(emailTo);
         helper.setSubject("REGISTRO - Nueva veterinaria registrada: " + vetRequest.getName());
 
-        PaymentTemplate templateLoader = new PaymentTemplate();
+        LoadTemplate templateLoader = new LoadTemplate();
         Map<String, String> variables = Map.of(
                 "vetName", vetRequest.getName(),
                 "vetEmail", vetRequest.getEmail(),
@@ -85,7 +85,7 @@ public class EmailService {
                 "vetDistrict", vetRequest.getDistrict(),
                 "vetPhone", vetRequest.getPhoneNumber()
         );
-        String emailBody = templateLoader.loadPaymentTemplate("registered_vet_notification.html", variables);
+        String emailBody = templateLoader.loadTemplate("registered_vet_notification.html", variables);
         helper.setText(emailBody, true);
 
         ClassPathResource logo = new ClassPathResource("static/vettilogo.png");
@@ -99,11 +99,11 @@ public class EmailService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        PaymentTemplate templateLoader = new PaymentTemplate();
+        LoadTemplate templateLoader = new LoadTemplate();
         Map<String, String> variables = Map.of(
                 "resetCode", resetCode
         );
-        String emailBody = templateLoader.loadPaymentTemplate("password_reset.html", variables);
+        String emailBody = templateLoader.loadTemplate("password_reset.html", variables);
 
         helper.setTo(email);
         helper.setSubject("Recuperación de Contraseña");
@@ -120,12 +120,12 @@ public class EmailService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        PaymentTemplate templateLoader = new PaymentTemplate();
+        LoadTemplate templateLoader = new LoadTemplate();
         Map<String, String> variables = Map.of(
                 "vetName", vetName,
                 "eventName", eventName
         );
-        String emailBody = templateLoader.loadPaymentTemplate("cancel_calendly_event.html", variables);
+        String emailBody = templateLoader.loadTemplate("cancel_calendly_event.html", variables);
 
         helper.setTo(emailTo);
         helper.setSubject("BACKOFFICE - Cancelación de eventos");
@@ -143,9 +143,9 @@ public class EmailService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        PaymentTemplate templateLoader = new PaymentTemplate();
+        LoadTemplate templateLoader = new LoadTemplate();
         Map<String, String> variables = Map.of("vetName", vetName);
-        String emailBody = templateLoader.loadPaymentTemplate("payment_confirmation.html", variables);
+        String emailBody = templateLoader.loadTemplate("payment_confirmation.html", variables);
 
         helper.setTo(vetEmail);
         helper.setSubject("Confirmación de Pago - Bienvenido a Vetti");
@@ -162,7 +162,7 @@ public class EmailService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        PaymentTemplate templateLoader = new PaymentTemplate();
+        LoadTemplate templateLoader = new LoadTemplate();
         Map<String, String> variables = Map.of(
                 "vetName", vetRequest.getName(),
                 "vetEmail", vetRequest.getEmail(),
@@ -170,7 +170,7 @@ public class EmailService {
                 "vetDistrict", vetRequest.getDistrict(),
                 "vetPhone", vetRequest.getPhoneNumber()
         );
-        String emailBody = templateLoader.loadPaymentTemplate("payment_confirmation_admin.html", variables);
+        String emailBody = templateLoader.loadTemplate("payment_confirmation_admin.html", variables);
 
         helper.setTo(emailTo);
         helper.setSubject("Nueva veterinaria registrada - Suscripción confirmada");
