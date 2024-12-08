@@ -56,7 +56,7 @@ calendly:
   api:
     token: ${CALENDLY_TOKEN}
   organization:
-    uuid: 41b8ef68-cda3-497c-a534-aa634efe91eb
+    uuid: ${CALENDLY_UUID}
 
 email:
   to: ${EMAIL_TO}
