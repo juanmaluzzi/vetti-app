@@ -1,6 +1,7 @@
 package org.vetti.model.dto;
 
 import lombok.*;
+import org.vetti.model.request.VetRequest;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +22,11 @@ public class UpdateVetDTO {
     private String calendlyCalendar;
     private String district;
     private String payment;
+
+    public UpdateVetDTO(VetRequest vetRequest) {
+        this.email = vetRequest.getEmail();
+        this.name = vetRequest.getName();
+        this.status = vetRequest.getStatus();
+    }
+
 }

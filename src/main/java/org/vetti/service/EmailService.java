@@ -5,6 +5,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.vetti.model.dto.CanceledEventCalendlyDTO;
+import org.vetti.model.dto.ServiceAddedCalendlyDTO;
 import org.vetti.model.request.ScheduleRequest;
 import org.vetti.model.request.VetRequest;
 import org.vetti.templates.LoadTemplate;
@@ -12,9 +14,8 @@ import org.vetti.templates.LoadTemplate;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailService {
@@ -181,6 +182,102 @@ public class EmailService {
 
         mailSender.send(message);
         System.out.println("Correo de confirmación enviado al administrador.");
+    }
+
+    public void sendVetEnabledNotification(String vetEmail, String vetName) throws MessagingException, IOException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        LoadTemplate templateLoader = new LoadTemplate();
+        Map<String, String> variables = Map.of(
+                "vetName", vetName
+        );
+        String emailBody = templateLoader.loadTemplate("vet_enabled_notification.html", variables);
+
+        helper.setTo(vetEmail);
+        helper.setSubject("Cuenta Habilitada - Bienvenido a Vetti");
+        helper.setText(emailBody, true);
+
+        ClassPathResource logo = new ClassPathResource("static/vettilogo.png");
+        helper.addInline("logoVetti", logo);
+
+        mailSender.send(message);
+        System.out.println("Correo de habilitación enviado a " + vetEmail);
+    }
+
+
+    public void sendServiceAddedEmailToVet(ServiceAddedCalendlyDTO request) throws MessagingException, IOException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        LoadTemplate templateLoader = new LoadTemplate();
+
+        String[] servicesArray = request.getDescription().split(",");
+        String servicesHtml = Arrays.stream(servicesArray)
+                .map(String::trim)
+                .map(service -> "<li>" + service + "</li>")
+                .collect(Collectors.joining());
+
+        Map<String, String> variables = Map.of(
+                "vetName", request.getVetName(),
+                "description", servicesHtml
+        );
+
+        String emailBody = templateLoader.loadTemplate("service_added.html", variables);
+
+        helper.setTo(request.getVetEmail());
+        helper.setSubject("Confirmación de Servicios Agregados");
+        helper.setText(emailBody, true);
+
+        ClassPathResource logo = new ClassPathResource("static/vettilogo.png");
+        helper.addInline("logoVetti", logo);
+
+        mailSender.send(message);
+        System.out.println("Correo de confirmación enviado a " + request.getVetEmail());
+    }
+
+
+    public void sendServiceDeletionEmailToVet(CanceledEventCalendlyDTO request) throws MessagingException, IOException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        LoadTemplate templateLoader = new LoadTemplate();
+        Map<String, String> variables = Map.of(
+                "vetName", request.getVetName(),
+                "eventName", request.getEventName()
+        );
+        String emailBody = templateLoader.loadTemplate("service_deleted.html", variables);
+
+        helper.setTo(request.getVetEmail());
+        helper.setSubject("Confirmación de Cancelación de Servicios");
+        helper.setText(emailBody, true);
+
+        ClassPathResource logo = new ClassPathResource("static/vettilogo.png");
+        helper.addInline("logoVetti", logo);
+
+        mailSender.send(message);
+        System.out.println("Correo de cancelación enviado.");
+    }
+
+    public void sendConfirmationToAdmin(String vetName) throws MessagingException, IOException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        LoadTemplate templateLoader = new LoadTemplate();
+        Map<String, String> variables = Map.of(
+                "vetName", vetName
+        );
+        String emailBody = templateLoader.loadTemplate("confirmation_to_admin.html", variables);
+
+        helper.setTo(emailTo);
+        helper.setSubject("Confirmación: Veterinaria Habilitada");
+        helper.setText(emailBody, true);
+
+        ClassPathResource logo = new ClassPathResource("static/vettilogo.png");
+        helper.addInline("logoVetti", logo);
+
+        mailSender.send(message);
+        System.out.println("Correo de confirmación enviado a vetfinal@gmail.com");
     }
 
 

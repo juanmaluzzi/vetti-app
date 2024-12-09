@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.vetti.exceptions.BadRequestException;
 import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.dto.*;
 import org.vetti.model.request.VetRequest;
 import org.vetti.model.response.SearchVetResponse;
 import org.vetti.repository.VetRepository;
 
-import javax.mail.MessagingException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,7 +49,6 @@ public class CalendlyService {
     }
 
     public List<GetUsersEventsDTO> getMappedEventsByEmail(String email, String status, Boolean expired) {
-        // Construir la URL con los parámetros status y email
         String url = String.format(
                 "https://api.calendly.com/scheduled_events?invitee_email=%s&organization=https://api.calendly.com/organizations/%s&status=%s",
                 email, organizationUuid, status
@@ -62,26 +59,22 @@ public class CalendlyService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        // Llamada a Calendly para obtener eventos
         ResponseEntity<JsonNode> response = restTemplate.exchange(url, HttpMethod.GET, entity, JsonNode.class);
         JsonNode collection = response.getBody().path("collection");
 
-        // Crear lista para almacenar eventos filtrados
         List<GetUsersEventsDTO> eventList = new ArrayList<>();
         ZonedDateTime now = ZonedDateTime.now();
 
-        // Filtrar los eventos basados en `expired`
         for (JsonNode events : collection) {
             String endTimeString = events.path("end_time").asText();
             ZonedDateTime endTime = ZonedDateTime.parse(endTimeString, DateTimeFormatter.ISO_ZONED_DATE_TIME)
                     .withZoneSameInstant(ZoneId.of("America/Argentina/Buenos_Aires"));
 
             // Filtrar por eventos vencidos o futuros según `expired`
-            if ((expired != null && expired && endTime.isBefore(now)) || // Vencidos
-                    (expired != null && !expired && endTime.isAfter(now)) || // Futuros
-                    (expired == null)) { // Sin filtro por fecha
+            if ((expired != null && expired && endTime.isBefore(now)) ||
+                    (expired != null && !expired && endTime.isAfter(now)) ||
+                    (expired == null)) {
 
-                // Mapear los datos del evento al DTO
                 GetUsersEventsDTO event = new GetUsersEventsDTO();
                 event.setCreatedAt(events.path("created_at").asText());
                 event.setEndTime(events.path("end_time").asText());

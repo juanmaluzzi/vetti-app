@@ -15,6 +15,7 @@ import org.vetti.model.response.LoginVetResponse;
 import org.vetti.model.response.SearchVetResponse;
 import org.vetti.utils.VetUtils;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -118,4 +119,15 @@ public class VetService {
 
         return ResponseEntity.ok(responseList);
     }
+
+    public void updateVetStatusByEmail(String email, String newStatus) {
+        VetRequest vet = vetRepository.findVetByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Vet not found with email: " + email));
+
+        vet.setStatus(newStatus);
+
+        vetRepository.save(vet);
+    }
+
+
 }
