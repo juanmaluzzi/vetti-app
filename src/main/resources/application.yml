@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          auth0:
+            client-id: ${AUTH0_CLIENT_ID}
+            client-secret: ${AUTH0_CLIENT_SECRET}
+            scope: openid,profile,email
+            redirect-uri: ${AUTH0_REDIRECT_URI}
+        provider:
+          auth0:
+            authorization-uri: ${AUTH0_ISSUER_URI}authorize
+            token-uri: ${AUTH0_ISSUER_URI}oauth/token
+            user-info-uri: ${AUTH0_ISSUER_URI}userinfo
+            jwk-set-uri: ${AUTH0_ISSUER_URI}.well-known/jwks.json
+            issuer-uri: ${AUTH0_ISSUER_URI}
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH0_ISSUER_URI}
+  task:
+    scheduling:
+      pool:
+        size: 10
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tesisfinaldavinci@gmail.com
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: false
+
+calendly:
+  api:
+    token: ${CALENDLY_TOKEN}
+  organization:
+    uuid: ${CALENDLY_UUID}
+
+email:
+  to: ${EMAIL_TO}
+
+mercadopago:
+  token: ${MERCADOPAGO_TOKEN}
+
+
