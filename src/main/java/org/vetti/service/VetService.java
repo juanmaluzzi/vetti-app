@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.vetti.exceptions.BadRequestException;
 import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.dto.UpdateVetDTO;
 import org.vetti.model.request.VetRequest;
@@ -17,7 +15,6 @@ import org.vetti.utils.VetUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
