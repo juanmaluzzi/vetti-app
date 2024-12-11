@@ -64,4 +64,10 @@ email:
 mercadopago:
   token: ${MERCADOPAGO_TOKEN}
 
-
+auth:
+  validApiKey: ${AUTH_VALIDAPIKEY}
+  clientId: ${AUTH_CLIENTID}
+  clientSecret: ${AUTH_CLIENTSECRET}
+  audience: ${AUTH_AUDIENCE}
+  grantType: client_credentials
+  authUrl: ${AUTH_AUTHURL}
