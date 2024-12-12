@@ -54,7 +54,7 @@ public class VetService {
 
         if (passwordEncoder.matches(password, vetRequest.getPassword())) {
             String role = vetRequest.getRole();
-            LoginVetResponse response = new LoginVetResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, vetRequest.getId(), vetRequest.getStatus(), vetRequest.getPayment());
+            LoginVetResponse response = new LoginVetResponse("Usuario autenticado correctamente.", HttpStatus.OK.value(), role, vetRequest.getId(), vetRequest.getStatus(), vetRequest.getPayment(), vetRequest.getPhoneNumber(), vetRequest.getAddress(), vetRequest.getCuit(), vetRequest.getName(), vetRequest.getEmail());
             return ResponseEntity.ok(response);
         } else {
             LoginVetResponse response = new LoginVetResponse("Credenciales invalidas, por favor revise su correo o contraseña.", HttpStatus.UNAUTHORIZED.value());

@@ -14,6 +14,11 @@ public class LoginVetResponse {
     private Long id;
     private String status;
     private String payment;
+    private String phoneNumber;
+    private String address;
+    private String cuit;
+    private String name;
+    private String email;
 
     public LoginVetResponse(String message, int statusCode){
         this.message = message;
