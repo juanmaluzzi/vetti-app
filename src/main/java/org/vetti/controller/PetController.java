@@ -3,11 +3,7 @@ package org.vetti.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.vetti.exceptions.NotFoundException;
 import org.vetti.model.request.PetRequest;
-import org.vetti.model.request.UserRequest;
-import org.vetti.repository.PetRepository;
-import org.vetti.repository.UserRepository;
 import org.vetti.service.PetService;
 
 import java.util.HashMap;
@@ -18,12 +14,6 @@ import java.util.Map;
 @RequestMapping("/pets")
 @CrossOrigin(origins = "*")
 public class PetController {
-
-    @Autowired
-    private PetRepository petRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private PetService petService;
