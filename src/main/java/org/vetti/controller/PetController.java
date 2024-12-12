@@ -28,21 +28,14 @@ public class PetController {
     @Autowired
     private PetService petService;
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<PetRequest> getAllPets() {
-        return petRepository.findAll();
+        return petService.getAllPets();
     }
 
     @PostMapping("/addPet/{userId}")
     public ResponseEntity<PetRequest> createPet(@PathVariable Long userId, @RequestBody PetRequest petRequest) {
-
-        UserRequest userRequest = userRepository.findUserById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found with ID: " + userId));
-
-        petRequest.setUserRequest(userRequest);
-
-        PetRequest newPetRequest = petRepository.save(petRequest);
-
+        PetRequest newPetRequest = petService.createPet(userId, petRequest);
         return ResponseEntity.ok(newPetRequest);
     }
 
